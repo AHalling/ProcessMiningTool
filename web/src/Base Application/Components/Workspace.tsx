@@ -35,13 +35,13 @@ const WorkspaceComponent = (props: Workspace) => {
     const onOpen = (target: string) => {
         if (path){
             setPath(pathModule.join(path, target))
-            props.setState({pages:"LandingPage", log:null, workspacePath:path})
+            props.setState({pages:"LandingPage", log:null, result: null, workspacePath:path})
         }
     }
 
     const handleSubmit = () => {
         setPath(inputPath);
-        props.setState({pages:"LandingPage", log:null, workspacePath:inputPath})
+        props.setState({pages:"LandingPage", log:null, result: null, workspacePath:inputPath})
 
     }
 
@@ -70,7 +70,7 @@ const WorkspaceComponent = (props: Workspace) => {
                             placeholder="File search"
                             />
                         </SearchWrapper>
-                    <FilesViewer files={props.sort(workspaceFiles, searchString)} onBack={onBack} onOpen={onOpen} setState={props.setState} state={{pages:"LandingPage", log:null, workspacePath: props.directoryPath}} />
+                    <FilesViewer files={props.sort(workspaceFiles, searchString)} onBack={onBack} onOpen={onOpen} setState={props.setState} state={{pages:"LandingPage", log:null, result: null, workspacePath: props.directoryPath}} />
                 </TableWrapper>
             )
         }else{

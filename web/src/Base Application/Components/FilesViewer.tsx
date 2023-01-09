@@ -13,7 +13,7 @@ type FileViewerProps = {
 
 const handleSelect = (directory : boolean, name : string, path:string, props: FileViewerProps) => {
   if(!directory){
-    props.setState({pages: "LandingPage", log:{name:name, path:path}, workspacePath:props.state.workspacePath})
+    props.setState({pages: "LandingPage", log:{name:name, path:path}, result: props.state.result, workspacePath:props.state.workspacePath})
   }else{
     directory && props.onOpen(name) 
   }

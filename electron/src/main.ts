@@ -13,7 +13,7 @@ import { mineLog } from "./mining";
 import { getStatistics } from "./statistics";
 
 let globalMainWindow: BrowserWindow;
-let globalState: State = {pages: "LandingPage", log:null, workspacePath:""};
+let globalState: State = {pages: "LandingPage", log:null, result: null, workspacePath:""};
 
 const WINDOW_TITLE = "Process mining tool";
 

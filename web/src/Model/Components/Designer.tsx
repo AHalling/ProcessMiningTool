@@ -529,7 +529,7 @@ const Designer = ({ setState, id , DesignerHeight, state}: DesignerProps) => {
 
   return (
     <ModelWrapper>
-      <BackButton onClick={() => setState({pages:"LandingPage", log:state.log, workspacePath: state.workspacePath})} />
+      <BackButton onClick={() => setState({pages:"LandingPage", log:state.log, result: state.result, workspacePath: state.workspacePath})} />
       <ContextMenuTrigger id="contextmenu" holdToDisplay={-1}>
         <Stage width={window.innerWidth} height={DesignerHeight}
           onMouseUp={handleMouseUp}

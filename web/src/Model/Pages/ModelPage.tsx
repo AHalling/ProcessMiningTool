@@ -23,7 +23,7 @@ const ModelPage = ({setState, state} : ModelPageProps) => {
       }, []);
 
       const handleLoad = (fn: string) => {
-        setState({pages:"Canvas", log: state.log, workspacePath: state.workspacePath});
+        setState({pages:"Canvas", log: state.log, result: state.result, workspacePath: state.workspacePath});
         window.electron.loadGraph(fn);
       }
     

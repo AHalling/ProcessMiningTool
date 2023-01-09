@@ -9,7 +9,7 @@ type LogoProps = {
 const Logo = ({setState, state}:LogoProps) => {
     let LogoPath = process.env.PUBLIC_URL+"/logo.png";
     return (
-        <LogoStyle src={LogoPath} alt="My logo" onClick={() => setState({pages:"LandingPage", log: state.log, workspacePath: state.workspacePath})} />
+        <LogoStyle src={LogoPath} alt="My logo" onClick={() => setState({pages:"LandingPage", log: state.log, result: state.result, workspacePath: state.workspacePath})} />
     )
 }
 

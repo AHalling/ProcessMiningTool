@@ -9,7 +9,7 @@ type LogPreviewProps = {
 }
 
 const resetState = (props: LogPreviewProps) => {
-    props.setState({pages:"LandingPage", log: null, workspacePath:props.state.workspacePath})
+    props.setState({pages:"LandingPage", log: null, result: null, workspacePath:props.state.workspacePath})
 }
 
 const LogPreview = (props: LogPreviewProps) => {
@@ -21,7 +21,7 @@ const LogPreview = (props: LogPreviewProps) => {
 }
 
 const handleOpen = (props: LogPreviewProps) => {
-    props.setState({pages:"LogPage", log:props.state.log, workspacePath: props.state.workspacePath})
+    props.setState({pages:"LogPage", log:props.state.log, result: props.state.result, workspacePath: props.state.workspacePath})
 }
 
 const renderComponent = (props: LogPreviewProps) => {

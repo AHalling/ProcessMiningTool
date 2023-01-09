@@ -4,6 +4,7 @@
 
 import { Model } from "./miningTypes"
 import { ILog } from "./LogTypes"
+import { Result} from "./conformanceCheckingTypes";
 
 export const isStringArray = (obj: any): obj is Array<string> => {
     return obj.constructor === Array && (!obj[0] || typeof obj[0] === "string")
@@ -98,10 +99,12 @@ const __StateHelper = {
     LogPage: "log-page",
     ModelPage: "model-page",
     Designer: "designer",
+    ConformanceCheckingPage: "conformance-checking-page"
 }
 export type State = {
     pages: keyof typeof __StateHelper,
     log: ILog | null,
+    result: Result | null,
     workspacePath: string,
 }
 

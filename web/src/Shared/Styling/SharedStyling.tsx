@@ -10,11 +10,12 @@ export const ContentWrapper = styled.div`
   display: flex;
   flex-direction:column;
   width: 100%;
-  height: 80vh;;
+  height: 85vh;
+  overflow-x: hidden;
 `
 
 export const Footer = styled.div`
-    height: 10vh;
+    height: 5vh;
     display: flex;
     flex-direction: column;
     background-color:rgb(31, 40, 51, 0.3);

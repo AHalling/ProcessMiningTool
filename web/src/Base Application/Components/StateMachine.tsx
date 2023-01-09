@@ -4,6 +4,7 @@ import Designer from "../../Model/Components/Designer";
 import LandingPage from "../Pages/LandingPage";
 import LogPage from "../../Log/Pages/LogPage";
 import ModelPage from "../../Model/Pages/ModelPage";
+import ConformanceCheckingPage from "../../Conformance Checking/Pages/ConformanceCheckingPage";
 import FooterLayout from "../../Shared/Components/Footer"
 import HeaderLayout from "../../Shared/Components/Header";
 import { Main } from "../../Shared/Styling/SharedStyling";
@@ -13,7 +14,7 @@ import { State } from "types";
 
 const StateMachine = () => {
     const [graphId, setGraphId] = useState<string | null>(null);
-    const [reactState, setReactState] = useState<State>({pages: "LandingPage", log:null, workspacePath:""});
+    const [reactState, setReactState] = useState<State>({pages: "LandingPage", log:null, result: null, workspacePath:""});
 
     // Sets electron state upon starting up
     useEffect( () => {
@@ -62,13 +63,21 @@ const getComponent = (state : State, setState:any, graphId: any) : any =>{
             }
             else{
                 alert("Please select a log on the main page before accessing this page.")
-                return getComponent({pages:"LandingPage", log: state.log, workspacePath: state.workspacePath}, setState, graphId)
+                return getComponent({pages:"LandingPage", log: state.log, result: state.result, workspacePath: state.workspacePath}, setState, graphId)
             }
         case "ModelPage":
             return(
                 <Main>
                     <HeaderLayout setState={setState} state={state}></HeaderLayout>
                     <ModelPage setState={setState} state={state}></ModelPage>
+                    <FooterLayout></FooterLayout>
+                </Main>
+            )
+        case "ConformanceCheckingPage":
+            return(
+                <Main>
+                    <HeaderLayout setState={setState} state={state}></HeaderLayout>
+                    <ConformanceCheckingPage state={state} setState={setState}></ConformanceCheckingPage>
                     <FooterLayout></FooterLayout>
                 </Main>
             )
