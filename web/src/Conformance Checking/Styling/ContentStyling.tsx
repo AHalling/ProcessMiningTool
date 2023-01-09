@@ -28,7 +28,3 @@ export const StatisticsBar = styled.div`
     width: 20vw;
     border-left: 1px solid black;
 `
-
-export const Button = styled.button `
-
-`

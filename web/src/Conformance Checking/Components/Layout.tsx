@@ -3,8 +3,9 @@ import { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import Test from "./Test";
 import ResultsStatistics from "./ResultsStatistics";
 import Export from "./Export";
+import TopbarContent from "./TopbarContent";
 import {LeftBar, MainContent, StatisticsBar, ContentWrapper} from "../Styling/ContentStyling";
-import {MainContentWrapper, TopBar, TopBarBox, Groups, Legends} from "../Styling/MainContentStyling";
+import {MainContentWrapper, Groups, Legends} from "../Styling/MainContentStyling";
 import ResultList from "./ResultList";
 import {ResultsLabel, OptionsLabel, StatisticsLabel, HeatmapLabel, HeightDictionary, GroupStatisticsLabel, ExportLabel} from "../Constants";
 import {State} from "../../../../types/src/types";
@@ -69,17 +70,7 @@ const Layout = (props:LayoutProps) => {
             </LeftBar>
             <MainContent>
                 <MainContentWrapper>
-                    <TopBar>
-                        <TopBarBox>
-                            Log: {props.LogName}
-                        </TopBarBox>
-                        <TopBarBox>
-                            Model: {props.ModelName}
-                        </TopBarBox>
-                        <TopBarBox>
-                            Selected group: {ChosenGroup}
-                        </TopBarBox>
-                    </TopBar>
+                    <TopbarContent LogName={props.LogName} ModelName={props.ModelName} ChosenGroup= {ChosenGroup}/>
                     <Groups>
                         Groups
                     </Groups>
