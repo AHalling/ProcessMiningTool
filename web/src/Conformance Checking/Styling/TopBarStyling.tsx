@@ -30,7 +30,7 @@ export const TopBarContentDiv = styled.div`
 export const TopBarContentTextContainer = styled.div`
     line-height: 3vh;
     width:13vw;
-    font-size 0.80rem;
+    font-size 0.90vw;
     overflow-x: hidden;
 `
 
@@ -39,7 +39,7 @@ export const TopBarContentTextContainer = styled.div`
     width: 7vw;
     margin-left: 5px;
     margin-right: 5px;
-    font-size 12px;
+    font-size 0.75vw;
     border-radius: 25px;
     outline: none;
 `
