@@ -23,3 +23,23 @@ export const Button = styled.button`
     margin-top: 5px;
     margin-bottom: 5px;
 `
+
+export const StatisticsTable = styled.table`
+    width:90%;
+    border-collapse: collapse; 
+    padding: 0px;
+    margin: 0px;
+    margin-left: 10px;
+    margin-right: 10px;
+`
+
+export const StatisticsTableRow = styled.tr `
+    border-bottom: 1px dotted #000;
+`
+
+export const StatisticsTableDataKey = styled.td`
+    text-align: left;
+`
+export const StatisticsTableDataValue = styled.td`
+    text-align: center;
+`
