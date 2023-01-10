@@ -10,7 +10,7 @@ type StatisticsProps={
 const ResultsStatistics = (props: StatisticsProps) => {
     return(
         <div>
-            <StatisticsTable>
+            {props.Stats !== null && <StatisticsTable>
                 <tbody>
                     <tr>
                         <th>Statistic </th>
@@ -28,7 +28,7 @@ const ResultsStatistics = (props: StatisticsProps) => {
                             </StatisticsTableRow>
                             )})}
                 </tbody>
-            </StatisticsTable>
+            </StatisticsTable>}
         </div>
     )
 

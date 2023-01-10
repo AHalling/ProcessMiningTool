@@ -9,14 +9,20 @@ export interface Result {
     modelName: string,
     logPath: string,
     modelPath: string,
-    traceGroups: Group[],
+    traces: Traces,
+    statistics: TestStatistics
 }
 
-export interface Group{
-    name: string, // Placeholder
-    traces: Traces,
-    statistics: GroupStatistics
+export const isResult = (obj: any) => {
+    return true; // TODO
 }
+
+export interface EventResult{
+    result: Result,
+    color: string,
+}
+
+export type GroupResult = Result | null;
 
 export interface Traces {
     traces: Trace[]
@@ -46,3 +52,7 @@ export interface TestStatistics {
     [key: string]: number,
 }
 export type Statistics = GroupStatistics | GeneralStatistics | null;
+
+export interface LegendColor {
+    [key: string]: string,
+}

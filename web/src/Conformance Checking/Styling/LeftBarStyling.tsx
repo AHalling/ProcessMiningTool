@@ -30,3 +30,22 @@ export const Button = styled.button`
     padding-top: 4px;
     cursor:pointer;
 `
+
+export const Table = styled.table` 
+    margin-left: auto;
+    margin-right: auto;
+`
+
+export const TableData = styled.td`
+    padding-right: 5vw;
+`
+
+type ColorDivProps={
+    backgroundColor: string,
+}
+export const ColorDiv = styled.div<ColorDivProps>`
+    ${(p) =>
+        p.backgroundColor ? "background-color: " + p.backgroundColor + ";" : "background-color:purple"}
+    height: 1vh;
+    width: 1vw;
+`

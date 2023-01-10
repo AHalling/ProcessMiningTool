@@ -7,7 +7,8 @@ const dummyResults = () => {
         modelName: "string",
         logPath: "string",
         modelPath: "string",
-        traceGroups: [],
+        statistics: DummyTestStatistics1(),
+        traces: {traces: []},
     }
     
     const result2: Result = {
@@ -16,7 +17,8 @@ const dummyResults = () => {
         modelName: "string",
         logPath: "string",
         modelPath: "string",
-        traceGroups: [],
+        statistics: DummyTestStatistics(),
+        traces: {traces: []},
     }
     const result3: Result = {
         name: "result3.xes",
@@ -24,7 +26,8 @@ const dummyResults = () => {
         modelName: "string",
         logPath: "string",
         modelPath: "string",
-        traceGroups: [],
+        statistics: DummyTestStatistics(),
+        traces: {traces: []},
     }
 
     const result4: Result = {
@@ -33,7 +36,8 @@ const dummyResults = () => {
         modelName: "string",
         logPath: "string",
         modelPath: "string",
-        traceGroups: [],
+        statistics: DummyTestStatistics(),
+        traces: {traces: []},
     }
 
     const result5: Result = {
@@ -42,7 +46,8 @@ const dummyResults = () => {
         modelName: "string",
         logPath: "string",
         modelPath: "string",
-        traceGroups: [],
+        statistics: DummyTestStatistics(),
+        traces: {traces: []},
     }
 
     const result6: Result = {
@@ -51,7 +56,8 @@ const dummyResults = () => {
         modelName: "string",
         logPath: "string",
         modelPath: "string",
-        traceGroups: [],
+        statistics: DummyTestStatistics(),
+        traces: {traces: []},
     }
 
     const result7: Result = {
@@ -60,7 +66,8 @@ const dummyResults = () => {
         modelName: "string",
         logPath: "string",
         modelPath: "string",
-        traceGroups: [],
+        statistics: DummyTestStatistics(),
+        traces: {traces: []},
     }
 
     const result8: Result = {
@@ -69,11 +76,12 @@ const dummyResults = () => {
         modelName: "string",
         logPath: "string",
         modelPath: "string",
-        traceGroups: [],
+        statistics: DummyTestStatistics(),
+        traces: {traces: []},
     }
     
     const results: Results = {
-        results: [result1, result2, result3, result4, result5, result6, result7, result8]
+        results: [result1, result2, result3, result4, result5, result6, result7, result8, result1, result2, result3, result4, result5, result6, result7, result8]
     };
     return results
 }
@@ -106,6 +114,17 @@ export const DummyTestStatistics = () => {
         Activations: 40,
         Fulfillments: 30,
         Violations: 10,
+    }
+    return stats
+}
+
+export const DummyTestStatistics1 = () => {
+    const stats : TestStatistics = {
+        numberOfTraces: 1,
+        groupScore: 0.2,
+        Activations: 3,
+        Fulfillments: 4,
+        Violations: 5,
     }
     return stats
 }

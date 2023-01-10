@@ -4,12 +4,14 @@ import Test from "./Test";
 import ResultsStatistics from "./ResultsStatistics";
 import Export from "./Export";
 import TopbarContent from "./TopbarContent";
+import AlignmentGroups from "./AlignmentGroups";
+import Legends from "./Legends";
 import {LeftBar, MainContent, StatisticsBar, ContentWrapper} from "../Styling/ContentStyling";
-import {MainContentWrapper, Groups, Legends} from "../Styling/MainContentStyling";
+import {MainContentWrapper, Groups} from "../Styling/MainContentStyling";
 import ResultList from "./ResultList";
-import {ResultsLabel, OptionsLabel, StatisticsLabel, HeatmapLabel, HeightDictionary, GroupStatisticsLabel, ExportLabel} from "../Constants";
+import {ResultsLabel, OptionsLabel, StatisticsLabel, HeatmapLabel, HeightDictionary, GroupStatisticsLabel, ExportLabel, LegendsLabel} from "../Constants";
 import {State} from "../../../../types/src/types";
-import {Results, TestStatistics} from "../../../../types/src/conformanceCheckingTypes";
+import {Results, TestStatistics, GroupResult, Result, EventResult} from "../../../../types/src/conformanceCheckingTypes";
 
 type LayoutProps ={
     LogName: string,
@@ -21,9 +23,11 @@ type LayoutProps ={
 
 const Layout = (props:LayoutProps) => {
     const parentRef = useRef<HTMLDivElement | null>(null);
-    const [GroupStatisticsHeight, setGroupStatisticsHeight] = useState(175)
+    const [GroupStatisticsHeight, setGroupStatisticsHeight] = useState(175) // TODO: Fix height to be dynamic
     const [ExportHeight, setExportHeight] = useState(100)
-    const [ChosenGroup, setChosenGroup] = useState("")
+    const [SelectedGroup, setSelectedGroup] = useState<Result>(props.Results?.results[0]);
+    const [SelectedGroupColor, setSelectedGroupColor] = useState("");
+
     const GeneralStatistics : TestStatistics= {
         maxScore: 0.95,
         minScore: 0.10,
@@ -51,8 +55,15 @@ const Layout = (props:LayoutProps) => {
     }
 
     useEffect(() => {
-        props.state.result !== null ? setChosenGroup(props.state.result.name) : setChosenGroup("")
-    }, [props.state.result])
+        window.electron.listenToAlignmentGroupActivation( (result: EventResult) => {
+            setSelectedGroup(result.result);
+            setSelectedGroupColor(result.color)
+          });
+
+          return function cleanup() {
+            window.electron.clearAlignmentGroupActivation();
+          };
+    }, [props.state.result, SelectedGroup])
 
     useLayoutEffect(() => {
         parentRef.current?.childNodes.forEach((node: any) => {
@@ -66,21 +77,19 @@ const Layout = (props:LayoutProps) => {
                 <ToggleButton Title={ResultsLabel + ': ' + props.state.result?.name}  ComponentToRender={ResultList({Results:props.Results, state: props.state, setState:props.setState})} ComponentHeight={HeightDictionary[ResultsLabel]}></ToggleButton> 
                 <ToggleButton Title={OptionsLabel} ComponentToRender={Test({Name:"Options"})} ComponentHeight={HeightDictionary[OptionsLabel]}></ToggleButton>
                 <ToggleButton Title={StatisticsLabel} ComponentToRender={ResultsStatistics({Stats:GeneralStatistics})} ComponentHeight={HeightDictionary[StatisticsLabel]}></ToggleButton> 
-                <ToggleButton Title={HeatmapLabel} ComponentToRender={Test({Name:"Figure placeholder"})} ComponentHeight={HeightDictionary[HeatmapLabel]}></ToggleButton> 
+                <ToggleButton Title={HeatmapLabel} ComponentToRender={Test({Name:"Figure placeholder"})} ComponentHeight={HeightDictionary[HeatmapLabel]}></ToggleButton>
+                <ToggleButton Title={LegendsLabel} ComponentToRender={Legends()} ComponentHeight={HeightDictionary[HeatmapLabel]}></ToggleButton>  
             </LeftBar>
             <MainContent>
                 <MainContentWrapper>
-                    <TopbarContent LogName={props.LogName} ModelName={props.ModelName} ChosenGroup= {ChosenGroup}/>
+                    <TopbarContent LogName={props.LogName} ModelName={props.ModelName} resultName={props.state.result == null ? "" : props.state.result.name}/>
                     <Groups>
-                        Groups
+                        <AlignmentGroups Results={props.Results} />
                     </Groups>
-                    <Legends>
-
-                    </Legends>
                 </MainContentWrapper>
             </MainContent>
-            <StatisticsBar>
-                <ToggleButton Title={GroupStatisticsLabel}  ComponentToRender={ResultsStatistics({Stats:GroupStatistics})} ComponentHeight={GroupStatisticsHeight}></ToggleButton>
+            <StatisticsBar id="StatisticsBar" backgroundColor={SelectedGroupColor}>
+                <ToggleButton Title={GroupStatisticsLabel}  ComponentToRender={ResultsStatistics({Stats: SelectedGroup.statistics})} ComponentHeight={GroupStatisticsHeight}></ToggleButton>
                 <ToggleButton Title={ExportLabel}  ComponentToRender={Export()} ComponentHeight={ExportHeight}></ToggleButton> 
             </StatisticsBar>
         </ContentWrapper>

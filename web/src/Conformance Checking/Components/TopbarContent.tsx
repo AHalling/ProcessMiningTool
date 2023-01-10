@@ -1,12 +1,20 @@
 import {TopBar, TopBarBox, TopBarContentDiv, TopBarContentTextContainer, TopBarButton} from "../Styling/TopBarStyling";
+import {useEffect} from 'react';
 
 type TopBarContentProps = {
     LogName: string,
     ModelName: string,
-    ChosenGroup: string,
+    resultName: string,
 }
 
 const TopBarContent = (props: TopBarContentProps) => {
+
+    useEffect(() => {
+        if( typeof props.resultName === "undefined"){
+            props.resultName = "Select a result."
+        }
+    }, [props])
+
     return(
         <TopBar>
         <TopBarBox>
@@ -31,7 +39,7 @@ const TopBarContent = (props: TopBarContentProps) => {
         </TopBarBox>
         <TopBarBox>
             <TopBarContentTextContainer>
-                Selected group: {props.ChosenGroup}
+                Viewing result: {props.resultName}
             </TopBarContentTextContainer>
         </TopBarBox>
     </TopBar>

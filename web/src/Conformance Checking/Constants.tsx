@@ -1,11 +1,12 @@
+import {LegendColor} from "../../../types/src/conformanceCheckingTypes";
+
 export const ResultsLabel = "Results"
 export const OptionsLabel = "Options"
 export const StatisticsLabel = "Statistics"
 export const HeatmapLabel = "Heatmap"
 export const GroupStatisticsLabel = "Group Statistics"
 export const ExportLabel = "Export"
-
-
+export const LegendsLabel = "Legends"
 
 export const HeightDictionary : {[id: string] : number} = {
     Results:0,
@@ -27,3 +28,11 @@ export const StatisticNames : {[fieldName: string] : string} = {
     Fulfillments:"Fulfillments",
     Violations:"Violations",
 }
+
+export const GroupColors = ['#FF6F61','#88B04B','#34568B','#92A8D1','#F7CAC9', '#6B5B95', '#DD4124', '#45B8AC'];
+
+export const LegendColors : LegendColor = {
+    "Consume": "green",
+    "Model-skip": "yellow",
+    "Log-skip": "purple",
+};

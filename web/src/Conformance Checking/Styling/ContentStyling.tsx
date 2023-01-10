@@ -22,9 +22,16 @@ export const LeftBar = styled.div`
     ::-webkit-scrollbar {         display: none;       }
 
 `
+type StatisticBarProps ={
+    backgroundColor: string,
+}
 
-export const StatisticsBar = styled.div`
+export const StatisticsBar = styled.div<StatisticBarProps>`
+    ${(p) =>
+        p.backgroundColor ? "background-color: " + p.backgroundColor + ";" : ""}
     height: 100%;
     width: 20vw;
     border-left: 1px solid black;
+    z-index: 1;
 `
+

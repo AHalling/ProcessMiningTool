@@ -8,6 +8,7 @@ import { saveGraph, saveAsGraph, loadGraph, newGraph, getGraphFiles, loadSpecifi
 import {readAlgorithms} from "../src/algorithms";
 import {loadWorkspaceFiles} from "./workspace";
 import { State, isState } from "../../types/src/types";
+import {isResult} from "../../types/src/conformanceCheckingTypes";
 import { APP_MODEL_PATH, PRELOAD_FILE_PATH, APP_ALGORITHM_PATH } from "./constants";
 import { mineLog } from "./mining";
 import { getStatistics } from "./statistics";
@@ -124,6 +125,12 @@ function createWindow() {
     if (typeof fn === "string"){
       const modelId = loadSpecificModelId(fn);
       globalMainWindow.webContents.send('specificModelIdLoaded', modelId);
+    }
+  })
+
+  ipcMain.on('alignmentGroupActivation', (event: unknown, result: unknown, color: unknown) => {
+    if (typeof color === "string" && isResult(result)){
+      globalMainWindow.webContents.send('alignmentGroupActivationResult', {result, color})
     }
   })
   

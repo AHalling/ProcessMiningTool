@@ -1,4 +1,5 @@
 import { contextBridge, ipcRenderer } from "electron";
+import { Result } from "electron/main";
 
 import{ State} from "types";
 
@@ -19,6 +20,7 @@ contextBridge.exposeInMainWorld(
       listenToStatistics:(callback: Function) => ipcRenderer.on('statisticsResult', (event, msg) => callback(msg)),
       listenToLogModelFiles: (callback: Function) => ipcRenderer.on('specificModelFiles', (event, msg) => callback(msg)),
       listenTospecificModelIdLoaded : (callback: Function) => ipcRenderer.on('specificModelIdLoaded', (event, msg) => callback(msg)),
+      listenToAlignmentGroupActivation : (callback: Function) => ipcRenderer.on('alignmentGroupActivationResult', (event, msg) => callback(msg)),
       getGraphFiles: () => {
         ipcRenderer.send('getGraphFiles');
       },
@@ -51,6 +53,7 @@ contextBridge.exposeInMainWorld(
       clearStatisticsListener:() => ipcRenderer.removeAllListeners('statisticsResult'),
       clearSpecificModelFilesListener:() => ipcRenderer.removeAllListeners('listenToLogModelFiles'),
       clearlistenTospecificModelLoadedListener: () => ipcRenderer.removeAllListeners('listenTospecificModelLoaded'),
+      clearAlignmentGroupActivation: () => ipcRenderer.removeAllListeners('alignmentGroupActivationResult'),
       clearToastListener: () => {
         ipcRenderer.removeAllListeners('toast');
       },
@@ -74,6 +77,9 @@ contextBridge.exposeInMainWorld(
       },
       loadSpecificModelWithReturn: (fn: string) => {
         ipcRenderer.send('loadSpecificModelId', fn)
-      }
+      },
+      AlignmentGroupActivation:(result: Result, color: string) => {
+        ipcRenderer.send('alignmentGroupActivation', result, color)
+      },
     }
 )

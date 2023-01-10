@@ -10,12 +10,14 @@ type ResultListProps = {
 }
 
 const ResultList = (props: ResultListProps) => {
+    let i = 0;
     return(
         <ListWrapper>
             <ListOfResults>
                 {props.Results.results.map((item) => {
+                    i = i + 1;
                     return(
-                    <ResultListItem key={item.name}>
+                    <ResultListItem key={i}>
                         <ResultButton result={item} state={props.state} setState={props.setState}/>
                     </ResultListItem>
                     )
