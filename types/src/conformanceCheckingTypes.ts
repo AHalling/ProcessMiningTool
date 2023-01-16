@@ -1,6 +1,6 @@
 
 export interface Results {
-    results: Result[],
+    results: Array<Result>,
 }
 
 export interface Result {

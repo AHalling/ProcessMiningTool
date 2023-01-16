@@ -28,6 +28,7 @@ function createWindow() {
     icon: path.join(__dirname, "/icon.ico"),
     webPreferences: {
       nodeIntegration: true,
+      nodeIntegrationInWorker: true,
       webSecurity:false,
       allowRunningInsecureContent: true,
       preload: path.resolve(PRELOAD_FILE_PATH),

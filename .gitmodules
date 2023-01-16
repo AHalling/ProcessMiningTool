@@ -1,0 +1,3 @@
+[submodule "DCR-Alignment"]
+	path = DCR-Alignment
+	url = https://github.com/Axel0087/DCR-Alignment.git

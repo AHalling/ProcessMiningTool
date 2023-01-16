@@ -38,6 +38,7 @@ export const Table = styled.table`
 
 export const TableData = styled.td`
     padding-right: 5vw;
+    text-align:left;
 `
 
 type ColorDivProps={
