@@ -15,6 +15,10 @@ const TopBarContent = (props: TopBarContentProps) => {
         }
     }, [props])
 
+    const handleSelectClick = (type: string) => {
+          window.electron.SelectFile(type);
+    }
+
     return(
         <TopBar>
         <TopBarBox>
@@ -22,7 +26,7 @@ const TopBarContent = (props: TopBarContentProps) => {
                 <TopBarContentTextContainer>
                     Log: {props.LogName}
                 </TopBarContentTextContainer>
-                <TopBarButton onClick={() => console.log("Clicked")}>
+                <TopBarButton onClick={() => handleSelectClick("Log")}>
                     Select Log
                 </TopBarButton>
             </TopBarContentDiv>
@@ -32,7 +36,7 @@ const TopBarContent = (props: TopBarContentProps) => {
                 <TopBarContentTextContainer>
                     Model: {props.ModelName}
                 </TopBarContentTextContainer>
-                <TopBarButton onClick={() => console.log("Clicked")}>
+                <TopBarButton onClick={() => handleSelectClick("Model")}>
                     Select Model
                 </TopBarButton>
             </TopBarContentDiv>

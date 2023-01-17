@@ -1,7 +1,8 @@
 import { contextBridge, ipcRenderer } from "electron";
 import { Result } from "electron/main";
 
-import{ State} from "types";
+import{ State} from "../../types/src/types";
+import { FileResult, isFileResult } from "types/src/fileTypes";
 
 contextBridge.exposeInMainWorld(
     'electron', {
@@ -21,6 +22,8 @@ contextBridge.exposeInMainWorld(
       listenToLogModelFiles: (callback: Function) => ipcRenderer.on('specificModelFiles', (event, msg) => callback(msg)),
       listenTospecificModelIdLoaded : (callback: Function) => ipcRenderer.on('specificModelIdLoaded', (event, msg) => callback(msg)),
       listenToAlignmentGroupActivation : (callback: Function) => ipcRenderer.on('alignmentGroupActivationResult', (event, msg) => callback(msg)),
+      listenToSelectFile : (callback: Function) => ipcRenderer.on('selectedFile', (event, msg) => callback(msg)),
+      listenToAlignmentResult : (callback: Function) => ipcRenderer.on('alignmentResult', (event, msg) => callback(msg)),
       getGraphFiles: () => {
         ipcRenderer.send('getGraphFiles');
       },
@@ -54,6 +57,8 @@ contextBridge.exposeInMainWorld(
       clearSpecificModelFilesListener:() => ipcRenderer.removeAllListeners('listenToLogModelFiles'),
       clearlistenTospecificModelLoadedListener: () => ipcRenderer.removeAllListeners('listenTospecificModelLoaded'),
       clearAlignmentGroupActivation: () => ipcRenderer.removeAllListeners('alignmentGroupActivationResult'),
+      clearSelectFile : () => ipcRenderer.removeAllListeners('selectedFile'),
+      clearAlignmentResult : () => ipcRenderer.removeAllListeners('alignmentResult'),
       clearToastListener: () => {
         ipcRenderer.removeAllListeners('toast');
       },
@@ -80,6 +85,12 @@ contextBridge.exposeInMainWorld(
       },
       AlignmentGroupActivation:(result: Result, color: string) => {
         ipcRenderer.send('alignmentGroupActivation', result, color)
+      },
+      SelectFile: (type: string) => {
+        ipcRenderer.send('selectFile', type)
+      },
+      computeAlignment: (Log: FileResult, Model: FileResult) => {
+        ipcRenderer.send('alignment', Log, Model)
       },
     }
 )

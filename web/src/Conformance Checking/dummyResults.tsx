@@ -9,6 +9,9 @@ const dummyResults = () => {
         modelPath: "string",
         statistics: DummyTestStatistics1(),
         traces: {traces: []},
+        alignments: {
+            alignments: []
+        }
     }
     
     const result2: Result = {
@@ -19,6 +22,9 @@ const dummyResults = () => {
         modelPath: "string",
         statistics: DummyTestStatistics(),
         traces: {traces: []},
+        alignments: {
+            alignments: []
+        }
     }
     const result3: Result = {
         name: "result3.xes",
@@ -28,6 +34,9 @@ const dummyResults = () => {
         modelPath: "string",
         statistics: DummyTestStatistics(),
         traces: {traces: []},
+        alignments: {
+            alignments: []
+        }
     }
 
     const result4: Result = {
@@ -38,6 +47,9 @@ const dummyResults = () => {
         modelPath: "string",
         statistics: DummyTestStatistics(),
         traces: {traces: []},
+        alignments: {
+            alignments: []
+        }
     }
 
     const result5: Result = {
@@ -48,6 +60,9 @@ const dummyResults = () => {
         modelPath: "string",
         statistics: DummyTestStatistics(),
         traces: {traces: []},
+        alignments: {
+            alignments: []
+        }
     }
 
     const result6: Result = {
@@ -58,6 +73,9 @@ const dummyResults = () => {
         modelPath: "string",
         statistics: DummyTestStatistics(),
         traces: {traces: []},
+        alignments: {
+            alignments: []
+        }
     }
 
     const result7: Result = {
@@ -68,6 +86,9 @@ const dummyResults = () => {
         modelPath: "string",
         statistics: DummyTestStatistics(),
         traces: {traces: []},
+        alignments: {
+            alignments: []
+        }
     }
 
     const result8: Result = {
@@ -78,6 +99,9 @@ const dummyResults = () => {
         modelPath: "string",
         statistics: DummyTestStatistics(),
         traces: {traces: []},
+        alignments: {
+            alignments: []
+        }
     }
     
     const results: Results = {

@@ -1,6 +1,12 @@
+import {Alignment, Traces, DCRGraphPP} from "../../DCR-Alignment/types";
+import {isEventMap, isMarking, isEventSet, EventMap} from "./miningTypes"
 
 export interface Results {
     results: Array<Result>,
+}
+
+export interface LogAlignments {
+    alignments: Array<Alignment>
 }
 
 export interface Result {
@@ -10,7 +16,8 @@ export interface Result {
     logPath: string,
     modelPath: string,
     traces: Traces,
-    statistics: TestStatistics
+    statistics: TestStatistics,
+    alignments: LogAlignments,
 }
 
 export const isResult = (obj: any) => {
@@ -23,10 +30,6 @@ export interface EventResult{
 }
 
 export type GroupResult = Result | null;
-
-export interface Traces {
-    traces: Trace[]
-}
 
 export interface Trace {
     activities: string,
@@ -56,3 +59,17 @@ export type Statistics = GroupStatistics | GeneralStatistics | null;
 export interface LegendColor {
     [key: string]: string,
 }
+
+export const isDCRGraphPP = (obj: any): obj is DCRGraphPP => {
+    return (
+        isEventSet(obj.events) &&
+        isEventMap(obj.conditionsFor) &&
+        isEventMap(obj.milestonesFor) &&
+        isEventMap(obj.responseTo) &&
+        isEventMap(obj.includesTo) &&
+        isEventMap(obj.excludesTo) &&
+        isMarking(obj.marking) &&
+        isEventSet(obj.conditions)
+      )
+}
+

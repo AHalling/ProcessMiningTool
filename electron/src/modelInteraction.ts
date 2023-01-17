@@ -5,7 +5,7 @@ import fs from "fs";
 import { saveFile, loadFile } from "./fileManipulation";
 import {parseLog} from "./logInteraction"
 
-import { UiDCRGraph, isUiDCRGraph } from "types";
+import { UiDCRGraph, isUiDCRGraph } from "../../types/src/types";
 
 import { APP_MODEL_PATH } from "./constants";
 

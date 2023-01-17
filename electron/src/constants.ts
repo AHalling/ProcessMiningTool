@@ -9,6 +9,7 @@ declare global {
 export const APP_DATA_PATH = path.join(app.getPath("appData"), "Mining-tool"); 
 
 export const APP_MODEL_PATH = path.join(APP_DATA_PATH, "models");
+export const APP_LOG_PATH = path.join(APP_DATA_PATH, "logs");
 export const APP_ALGORITHM_PATH = path.join(APP_DATA_PATH, 'algorithms')
 export const APP_PUBLIC_DEFAULT_ALGORITHM = path.join(__dirname, '../../../../DisCoveR-TS-main/build/main.js')
 export const APP_PUBLIC_DEFAULT_ALGORITHM_NAME = "DisCoveR-TS-main";

@@ -48,6 +48,8 @@ export const isModel = (obj: any): obj is Model => {
 
 const __ModelType = {
   DCRGraph: "dcr-graph",
+  UIDCRGraph: "ui-dcr-graph",
+  DCRGraphPP: "dcr-graph-pp",
 }
 
 export const isDCRGraph = (obj: any) : obj is DCRGraph => {
@@ -62,7 +64,7 @@ export const isDCRGraph = (obj: any) : obj is DCRGraph => {
   )
 }
 
-const isEventSet = (set: any): set is Set<Event> => {
+export const isEventSet = (set: any): set is Set<Event> => {
   if(set.constructor === Set){
     let it = set.values();
     let firstValue = it.next().value;
@@ -73,7 +75,7 @@ const isEventSet = (set: any): set is Set<Event> => {
   return false;
 }
 
-const isEventMap = (map: any): map is EventMap => {
+export const isEventMap = (map: any): map is EventMap => {
   if(map.constructor === Object){
     let keys = Object.keys(map);
 
@@ -82,7 +84,7 @@ const isEventMap = (map: any): map is EventMap => {
   return false;
 }
 
-const isMarking = (markings: any): markings is Marking => {
+export const isMarking = (markings: any): markings is Marking => {
   return (
     isEventSet(markings.executed) &&
     isEventSet(markings.included) &&

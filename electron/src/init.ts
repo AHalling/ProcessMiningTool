@@ -1,6 +1,6 @@
 import fs from "fs";
 
-import { APP_DATA_PATH, APP_MODEL_PATH, APP_ALGORITHM_PATH, APP_TEST, APP_TEST_LOG, PUBLIC_TEST_LOG, APP_PUBLIC_DEFAULT_ALGORITHM } from "./constants";
+import { APP_DATA_PATH, APP_MODEL_PATH, APP_LOG_PATH, APP_ALGORITHM_PATH, APP_TEST, APP_TEST_LOG, PUBLIC_TEST_LOG, APP_PUBLIC_DEFAULT_ALGORITHM } from "./constants";
 
 export default function init() {
     if (!fs.existsSync(APP_DATA_PATH)) {
@@ -8,6 +8,9 @@ export default function init() {
     }
     if (!fs.existsSync(APP_MODEL_PATH)) {
         fs.mkdirSync(APP_MODEL_PATH, { recursive: true});
+    }
+    if (!fs.existsSync(APP_LOG_PATH)) {
+        fs.mkdirSync(APP_LOG_PATH, { recursive: true});
     }
     if (!fs.existsSync(APP_ALGORITHM_PATH)) {
         fs.mkdirSync(APP_ALGORITHM_PATH, {recursive:true});

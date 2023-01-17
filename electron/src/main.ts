@@ -12,6 +12,9 @@ import {isResult} from "../../types/src/conformanceCheckingTypes";
 import { APP_MODEL_PATH, PRELOAD_FILE_PATH, APP_ALGORITHM_PATH } from "./constants";
 import { mineLog } from "./mining";
 import { getStatistics } from "./statistics";
+import {SelectFile} from "./fileManipulation";
+import {FileType, isFileType, isFileResult} from "../../types/src/fileTypes";
+import {computeAlignment} from "./ConformanceChecking/Alignment"
 
 let globalMainWindow: BrowserWindow;
 let globalState: State = {pages: "LandingPage", log:null, result: null, workspacePath:""};
@@ -132,6 +135,21 @@ function createWindow() {
   ipcMain.on('alignmentGroupActivation', (event: unknown, result: unknown, color: unknown) => {
     if (typeof color === "string" && isResult(result)){
       globalMainWindow.webContents.send('alignmentGroupActivationResult', {result, color})
+    }
+  })
+
+  ipcMain.on('selectFile', (event: unknown, type: unknown) => {
+    if(isFileType(type)){
+      const fileResult = SelectFile(globalMainWindow, type)
+      globalMainWindow.webContents.send('selectedFile', fileResult)
+    }
+  })
+
+  ipcMain.on('alignment', (event: unknown, Log: unknown, Model: unknown) => {
+    if (isFileResult(Log) && isFileResult(Model)){
+          computeAlignment(Log, Model).then((alignment) => {
+            globalMainWindow.webContents.send('alignmentResult', alignment)
+          })
     }
   })
   

@@ -11,7 +11,8 @@ import {MainContentWrapper, Groups} from "../Styling/MainContentStyling";
 import ResultList from "./ResultList";
 import {ResultsLabel, OptionsLabel, StatisticsLabel, HeatmapLabel, HeightDictionary, GroupStatisticsLabel, ExportLabel, LegendsLabel} from "../Constants";
 import {State} from "../../../../types/src/types";
-import {Results, TestStatistics, GroupResult, Result, EventResult} from "../../../../types/src/conformanceCheckingTypes";
+import {Results, TestStatistics, Result, EventResult} from "../../../../types/src/conformanceCheckingTypes";
+import {FileResult} from "../../../../types/src/fileTypes";
 
 type LayoutProps ={
     LogName: string,
@@ -27,20 +28,14 @@ const Layout = (props:LayoutProps) => {
     const [ExportHeight, setExportHeight] = useState(100)
     const [SelectedGroup, setSelectedGroup] = useState<Result>(props.Results?.results[0]);
     const [SelectedGroupColor, setSelectedGroupColor] = useState("");
+    const [Log, setLog] = useState<FileResult>()
+    const [Model, setModel] = useState<FileResult>()
 
     const GeneralStatistics : TestStatistics= {
         maxScore: 0.95,
         minScore: 0.10,
         averageScore: 0.45,
         medianScore: 0.51,
-    }
-
-    const GroupStatistics: TestStatistics = {
-        numberOfTraces: 40,
-        groupScore: 0.92,
-        Activations: 40,
-        Fulfillments: 30,
-        Violations: 10,
     }
 
     const SetHeightForToggle = (node: any) =>{
@@ -54,6 +49,7 @@ const Layout = (props:LayoutProps) => {
         }
     }
 
+    // Change color on clicks
     useEffect(() => {
         window.electron.listenToAlignmentGroupActivation( (result: EventResult) => {
             setSelectedGroup(result.result);
@@ -64,6 +60,37 @@ const Layout = (props:LayoutProps) => {
             window.electron.clearAlignmentGroupActivation();
           };
     }, [props.state.result, SelectedGroup])
+
+    //Compute results on model and log change
+    useEffect(() => {
+        window.electron.listenToSelectFile( (fileResult: FileResult) => {
+            console.log(fileResult)
+    
+            if(fileResult.Type === "Log"){
+                setLog(fileResult)
+            }
+    
+            if( fileResult.Type === "Model"){
+                setModel(fileResult)
+            }
+    
+            window.electron.clearSelectFile();
+            });
+    }, [Log, Model])
+
+
+    useEffect(() => {
+        if(Log && Model){
+            window.electron.listenToAlignmentResult((result: any) => {
+                console.log(result)
+
+                window.electron.clearAlignmentResult();
+            })
+
+            window.electron.computeAlignment(Log, Model);
+
+        }
+    }, [Log, Model])
 
     useLayoutEffect(() => {
         parentRef.current?.childNodes.forEach((node: any) => {
@@ -82,7 +109,7 @@ const Layout = (props:LayoutProps) => {
             </LeftBar>
             <MainContent>
                 <MainContentWrapper>
-                    <TopbarContent LogName={props.LogName} ModelName={props.ModelName} resultName={props.state.result == null ? "" : props.state.result.name}/>
+                    <TopbarContent LogName={Log?.name ?? "Choose Log"} ModelName={Model?.name ?? "Choose Model"} resultName={props.state.result == null ? "" : props.state.result.name}/>
                     <Groups>
                         <AlignmentGroups Results={props.Results} />
                     </Groups>
