@@ -1,29 +1,29 @@
-import {GeneralStatistics, TestStatistics} from "types/src/conformanceCheckingTypes";
+import {TestStatistics} from "types/src/conformanceCheckingTypes";
 import {StatisticNames} from "../Constants";
 
 import {StatisticsTableRow, StatisticsTableDataKey, StatisticsTableDataValue, StatisticsTable} from "../Styling/StatisticsBarStyling";
 
 type StatisticsProps={
-    Stats: TestStatistics | null, 
+    Stats: TestStatistics | undefined, 
 }
 
 const ResultsStatistics = (props: StatisticsProps) => {
     return(
         <div>
-            {props.Stats !== null && <StatisticsTable>
+            {props.Stats && <StatisticsTable>
                 <tbody>
                     <tr>
                         <th>Statistic </th>
                         <th>Value </th>
                     </tr>
-                    {props.Stats !== null && Object.keys(props.Stats).map(key => {
+                    {(props.Stats !== undefined || props.Stats !== null) && Object.keys(props.Stats).map(key => {
                         return(
                             <StatisticsTableRow key={key}>
                                 <StatisticsTableDataKey>
                                     {StatisticNames[key]}
                                 </StatisticsTableDataKey>
                                 <StatisticsTableDataValue>
-                                    {props.Stats !== null && props.Stats[key]}
+                                    {props.Stats && props.Stats[key]}
                                 </StatisticsTableDataValue>
                             </StatisticsTableRow>
                             )})}

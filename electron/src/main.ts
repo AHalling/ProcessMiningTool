@@ -132,9 +132,9 @@ function createWindow() {
     }
   })
 
-  ipcMain.on('alignmentGroupActivation', (event: unknown, result: unknown, color: unknown) => {
-    if (typeof color === "string" && isResult(result)){
-      globalMainWindow.webContents.send('alignmentGroupActivationResult', {result, color})
+  ipcMain.on('alignmentGroupActivation', (event: unknown, group: unknown, color: unknown) => {
+    if (typeof color === "string" && isResult(group)){
+      globalMainWindow.webContents.send('alignmentGroupActivationResult', {group, color})
     }
   })
 

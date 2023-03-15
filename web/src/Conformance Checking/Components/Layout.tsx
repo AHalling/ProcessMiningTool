@@ -13,6 +13,7 @@ import {ResultsLabel, OptionsLabel, StatisticsLabel, HeatmapLabel, HeightDiction
 import {State} from "../../../../types/src/types";
 import {Results, TestStatistics, Result, EventResult} from "../../../../types/src/conformanceCheckingTypes";
 import {FileResult} from "../../../../types/src/fileTypes";
+import { AlignmentGroup } from "types/build/conformanceCheckingTypes";
 
 type LayoutProps ={
     LogName: string,
@@ -26,10 +27,11 @@ const Layout = (props:LayoutProps) => {
     const parentRef = useRef<HTMLDivElement | null>(null);
     const [GroupStatisticsHeight, setGroupStatisticsHeight] = useState(175) // TODO: Fix height to be dynamic
     const [ExportHeight, setExportHeight] = useState(100)
-    const [SelectedGroup, setSelectedGroup] = useState<Result>(props.Results?.results[0]);
+    const [SelectedGroup, setSelectedGroup] = useState<AlignmentGroup>();
     const [SelectedGroupColor, setSelectedGroupColor] = useState("");
     const [Log, setLog] = useState<FileResult>()
     const [Model, setModel] = useState<FileResult>()
+    const [currResult, setCurrResult] = useState<Result>()
 
     const GeneralStatistics : TestStatistics= {
         maxScore: 0.95,
@@ -52,7 +54,7 @@ const Layout = (props:LayoutProps) => {
     // Change color on clicks
     useEffect(() => {
         window.electron.listenToAlignmentGroupActivation( (result: EventResult) => {
-            setSelectedGroup(result.result);
+            setSelectedGroup(result.group);
             setSelectedGroupColor(result.color)
           });
 
@@ -64,7 +66,6 @@ const Layout = (props:LayoutProps) => {
     //Compute results on model and log change
     useEffect(() => {
         window.electron.listenToSelectFile( (fileResult: FileResult) => {
-            console.log(fileResult)
     
             if(fileResult.Type === "Log"){
                 setLog(fileResult)
@@ -81,16 +82,18 @@ const Layout = (props:LayoutProps) => {
 
     useEffect(() => {
         if(Log && Model){
-            window.electron.listenToAlignmentResult((result: any) => {
-                console.log(result)
-
-                window.electron.clearAlignmentResult();
-            })
-
             window.electron.computeAlignment(Log, Model);
-
         }
     }, [Log, Model])
+
+    useEffect(() => {
+        window.electron.listenToAlignmentResult((result: Result) => {
+            props.Results.results.push(result)
+            setCurrResult(result)
+            props.state.result = result
+            window.electron.clearAlignmentResult();
+        })
+    }, [props.Results, currResult, props.state])
 
     useLayoutEffect(() => {
         parentRef.current?.childNodes.forEach((node: any) => {
@@ -111,12 +114,12 @@ const Layout = (props:LayoutProps) => {
                 <MainContentWrapper>
                     <TopbarContent LogName={Log?.name ?? "Choose Log"} ModelName={Model?.name ?? "Choose Model"} resultName={props.state.result == null ? "" : props.state.result.name}/>
                     <Groups>
-                        <AlignmentGroups Results={props.Results} />
+                        {currResult && <AlignmentGroups Result={currResult} />}
                     </Groups>
                 </MainContentWrapper>
             </MainContent>
             <StatisticsBar id="StatisticsBar" backgroundColor={SelectedGroupColor}>
-                <ToggleButton Title={GroupStatisticsLabel}  ComponentToRender={ResultsStatistics({Stats: SelectedGroup.statistics})} ComponentHeight={GroupStatisticsHeight}></ToggleButton>
+                <ToggleButton Title={GroupStatisticsLabel}  ComponentToRender={ResultsStatistics({Stats: SelectedGroup?.GroupStatistics})} ComponentHeight={GroupStatisticsHeight}></ToggleButton>
                 <ToggleButton Title={ExportLabel}  ComponentToRender={Export()} ComponentHeight={ExportHeight}></ToggleButton> 
             </StatisticsBar>
         </ContentWrapper>

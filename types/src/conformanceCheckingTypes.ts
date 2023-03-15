@@ -15,9 +15,14 @@ export interface Result {
     modelName: string,
     logPath: string,
     modelPath: string,
-    traces: Traces,
     statistics: TestStatistics,
-    alignments: LogAlignments,
+    alignmentgroups: Array<AlignmentGroup>,
+}
+
+export interface AlignmentGroup {
+    Traces: Traces,
+    Alignment: Alignment,
+    GroupStatistics: TestStatistics,
 }
 
 export const isResult = (obj: any) => {
@@ -25,7 +30,7 @@ export const isResult = (obj: any) => {
 }
 
 export interface EventResult{
-    result: Result,
+    group: AlignmentGroup,
     color: string,
 }
 

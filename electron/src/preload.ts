@@ -3,6 +3,7 @@ import { Result } from "electron/main";
 
 import{ State} from "../../types/src/types";
 import { FileResult, isFileResult } from "types/src/fileTypes";
+import { AlignmentGroup } from "types/build/conformanceCheckingTypes";
 
 contextBridge.exposeInMainWorld(
     'electron', {
@@ -83,7 +84,7 @@ contextBridge.exposeInMainWorld(
       loadSpecificModelWithReturn: (fn: string) => {
         ipcRenderer.send('loadSpecificModelId', fn)
       },
-      AlignmentGroupActivation:(result: Result, color: string) => {
+      AlignmentGroupActivation:(result: AlignmentGroup, color: string) => {
         ipcRenderer.send('alignmentGroupActivation', result, color)
       },
       SelectFile: (type: string) => {

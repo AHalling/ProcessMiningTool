@@ -1,20 +1,20 @@
-import {Results} from "../../../../types/src/conformanceCheckingTypes";
+import {Result} from "../../../../types/src/conformanceCheckingTypes";
 import {AlignmentGroupsWrapper, AlignmentGroupWrapper} from "../Styling/MainContentStyling";
-import AlignmentGroup from "./AlignmentGroup";
+import AlignmentGrouping from "./AlignmentGroup";
 
 type AlignmentGroupsProps = {
-    Results: Results
+    Result: Result
 }
 
 const AlignmentGroups = (props: AlignmentGroupsProps) => {
     let i = 0;
     return(
         <AlignmentGroupsWrapper>
-            {props.Results.results.map((result) => {
+            {props.Result.alignmentgroups.map((group) => {
                 i = i + 1;
                 return(
                     <AlignmentGroupWrapper key={i}>
-                        <AlignmentGroup groupNumber={i} amountOfGroups={props.Results.results.length} result={result}/>
+                        <AlignmentGrouping groupNumber={i} amountOfGroups={props.Result.alignmentgroups.length} group={group}/>
                     </AlignmentGroupWrapper>
                 )
             })}

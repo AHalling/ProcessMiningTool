@@ -1,4 +1,4 @@
-import {Result} from "../../../../types/src/conformanceCheckingTypes";
+import {AlignmentGroup} from "../../../../types/src/conformanceCheckingTypes";
 import AlignmentGroupArrow from "./AlignmentGroupArrow";
 import ActivityIcon from "./ActivityIcon";
 import Dots from "./DotsIcon";
@@ -8,10 +8,10 @@ import {LeftSideDiv, ButtonWrapper, RepresentationWrapper, ArrowWrapper, Alignme
 type AlignmentGroupProps = {
     groupNumber: number,
     amountOfGroups: number,
-    result: Result,
+    group: AlignmentGroup,
 }
 
-const AlignmentGroup = (props: AlignmentGroupProps) => {
+const AlignmentGrouping = (props: AlignmentGroupProps) => {
     let color : string;
     const handleGroupActivations = () => {
         var currentGroup = document.getElementById(props.groupNumber.toString())
@@ -29,7 +29,7 @@ const AlignmentGroup = (props: AlignmentGroupProps) => {
             currentGroup.style.backgroundColor = color;
 
         // Emit electron event
-        window.electron.AlignmentGroupActivation(props.result, color)
+        window.electron.AlignmentGroupActivation(props.group, color)
     }
 
     return (
@@ -72,4 +72,4 @@ const AlignmentGroup = (props: AlignmentGroupProps) => {
     )
 }
 
-export default AlignmentGroup 
+export default AlignmentGrouping 

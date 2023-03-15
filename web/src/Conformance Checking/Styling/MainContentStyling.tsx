@@ -28,12 +28,15 @@ export const AlignmentGroupsWrapper = styled.div`
 export const AlignmentGroupWrapper = styled.div `
     text-align: left;
     width:100%;
-    height: 100%;
+    height: 10vh;
     display: flex;
     flex-direction: row;
     border-top: 1px solid black;
     &:first-child {
         border:none;
+      }
+    &:last-child {
+        border-bottom:1px solid black;
       }
 `
 export const ContentWrapper = styled.div `

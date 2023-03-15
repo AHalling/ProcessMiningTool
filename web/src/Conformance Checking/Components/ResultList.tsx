@@ -11,14 +11,15 @@ type ResultListProps = {
 
 const ResultList = (props: ResultListProps) => {
     let i = 0;
+    console.log(props.Results)
     return(
         <ListWrapper>
             <ListOfResults>
-                {props.Results.results.map((item) => {
+                {props.Results?.results?.map((item) => {
                     i = i + 1;
                     return(
                     <ResultListItem key={i}>
-                        <ResultButton result={item} state={props.state} setState={props.setState}/>
+                        <ResultButton result={item} results={props.Results} state={props.state} setState={props.setState}/>
                     </ResultListItem>
                     )
                 })}

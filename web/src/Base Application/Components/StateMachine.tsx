@@ -8,32 +8,36 @@ import ConformanceCheckingPage from "../../Conformance Checking/Pages/Conformanc
 import FooterLayout from "../../Shared/Components/Footer"
 import HeaderLayout from "../../Shared/Components/Header";
 import { Main } from "../../Shared/Styling/SharedStyling";
+import {Results} from "../../../../types/src/conformanceCheckingTypes";
 
 import { State } from "types";
 
 
 const StateMachine = () => {
     const [graphId, setGraphId] = useState<string | null>(null);
+    const [results, setResults] = useState<Results>({results: []});
     const [reactState, setReactState] = useState<State>({pages: "LandingPage", log:null, result: null, workspacePath:""});
-
     // Sets electron state upon starting up
     useEffect( () => {
-        window.electron.setState("LandingPage");
+        window.electron.setState("LandingPage", null, {results: []});
     }, [])
 
-    const setState = (state: State, graphId: string | null = null) => {
+    const setState = (state: State, graphId: string | null = null, results: Results) => {
         setReactState(state);
+        if((results != null || results !== undefined) && results.results.length > 0 ){
+            setResults(results);
+        }
         setGraphId(graphId);
         // Notifies electron of the changed state
-        window.electron.setState(state);
+        window.electron.setState(state, null, {results: []});
     }
 
 
-    const component = getComponent(reactState, setState, graphId)
+    const component = getComponent(reactState, setState, graphId, results)
     return component;
 }
 
-const getComponent = (state : State, setState:any, graphId: any) : any =>{
+const getComponent = (state : State, setState:any, graphId: any, results: Results) : any =>{
     switch(state.pages){
         case "LandingPage":
             return (
@@ -63,7 +67,7 @@ const getComponent = (state : State, setState:any, graphId: any) : any =>{
             }
             else{
                 alert("Please select a log on the main page before accessing this page.")
-                return getComponent({pages:"LandingPage", log: state.log, result: state.result, workspacePath: state.workspacePath}, setState, graphId)
+                return getComponent({pages:"LandingPage", log: state.log, result: state.result, workspacePath: state.workspacePath}, setState, graphId, results)
             }
         case "ModelPage":
             return(
@@ -77,7 +81,7 @@ const getComponent = (state : State, setState:any, graphId: any) : any =>{
             return(
                 <Main>
                     <HeaderLayout setState={setState} state={state}></HeaderLayout>
-                    <ConformanceCheckingPage state={state} setState={setState}></ConformanceCheckingPage>
+                    <ConformanceCheckingPage state={state} setState={setState} results={results}></ConformanceCheckingPage>
                     <FooterLayout></FooterLayout>
                 </Main>
             )

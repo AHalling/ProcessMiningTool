@@ -8,10 +8,7 @@ const dummyResults = () => {
         logPath: "string",
         modelPath: "string",
         statistics: DummyTestStatistics1(),
-        traces: {traces: []},
-        alignments: {
-            alignments: []
-        }
+        alignmentgroups:[]
     }
     
     const result2: Result = {
@@ -21,10 +18,7 @@ const dummyResults = () => {
         logPath: "string",
         modelPath: "string",
         statistics: DummyTestStatistics(),
-        traces: {traces: []},
-        alignments: {
-            alignments: []
-        }
+        alignmentgroups:[]
     }
     const result3: Result = {
         name: "result3.xes",
@@ -33,10 +27,7 @@ const dummyResults = () => {
         logPath: "string",
         modelPath: "string",
         statistics: DummyTestStatistics(),
-        traces: {traces: []},
-        alignments: {
-            alignments: []
-        }
+        alignmentgroups:[]
     }
 
     const result4: Result = {
@@ -46,10 +37,7 @@ const dummyResults = () => {
         logPath: "string",
         modelPath: "string",
         statistics: DummyTestStatistics(),
-        traces: {traces: []},
-        alignments: {
-            alignments: []
-        }
+        alignmentgroups:[]
     }
 
     const result5: Result = {
@@ -59,10 +47,7 @@ const dummyResults = () => {
         logPath: "string",
         modelPath: "string",
         statistics: DummyTestStatistics(),
-        traces: {traces: []},
-        alignments: {
-            alignments: []
-        }
+        alignmentgroups:[]
     }
 
     const result6: Result = {
@@ -72,10 +57,7 @@ const dummyResults = () => {
         logPath: "string",
         modelPath: "string",
         statistics: DummyTestStatistics(),
-        traces: {traces: []},
-        alignments: {
-            alignments: []
-        }
+        alignmentgroups:[]
     }
 
     const result7: Result = {
@@ -85,10 +67,7 @@ const dummyResults = () => {
         logPath: "string",
         modelPath: "string",
         statistics: DummyTestStatistics(),
-        traces: {traces: []},
-        alignments: {
-            alignments: []
-        }
+        alignmentgroups:[]
     }
 
     const result8: Result = {
@@ -98,10 +77,7 @@ const dummyResults = () => {
         logPath: "string",
         modelPath: "string",
         statistics: DummyTestStatistics(),
-        traces: {traces: []},
-        alignments: {
-            alignments: []
-        }
+        alignmentgroups:[]
     }
     
     const results: Results = {

@@ -29,7 +29,7 @@ export const TopBarContentDiv = styled.div`
 `
 export const TopBarContentTextContainer = styled.div`
     line-height: 3vh;
-    width:13vw;
+    width:100%;
     font-size 0.90vw;
     overflow-x: hidden;
 `
