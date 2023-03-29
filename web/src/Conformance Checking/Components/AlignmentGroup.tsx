@@ -2,7 +2,7 @@ import {AlignmentGroup} from "../../../../types/src/conformanceCheckingTypes";
 import AlignmentGroupArrow from "./AlignmentGroupArrow";
 import ActivityIcon from "./ActivityIcon";
 import Dots from "./DotsIcon";
-import { GroupColors } from "../Constants";
+import { GroupColors, colors } from "../Constants";
 import {LeftSideDiv, ButtonWrapper, RepresentationWrapper, ArrowWrapper, AlignmentGroupWrapper, ContentWrapper, GroupTitle, GroupButton, ContentButton, GroupButtonContent} from "../Styling/MainContentStyling";
 
 type AlignmentGroupProps = {
@@ -31,7 +31,7 @@ const AlignmentGrouping = (props: AlignmentGroupProps) => {
         // Emit electron event
         window.electron.AlignmentGroupActivation(props.group, color)
     }
-
+    let i = 0;
     return (
         <AlignmentGroupWrapper id={props.groupNumber.toString()}>
                 <LeftSideDiv>
@@ -53,13 +53,19 @@ const AlignmentGrouping = (props: AlignmentGroupProps) => {
                     <ContentButton onClick={() => handleGroupActivations()}>
                         <GroupButtonContent>
                             <div style={{display:"flex", flexDirection:"row", position:"relative", marginTop:"2vh"}}>
-                                <ActivityIcon backgroundColor="green" left="0" activityName="A"/>
+                                {/* <ActivityIcon backgroundColor="green" left="0" activityName="A"/>
                                 <ActivityIcon backgroundColor="yellow" left="2" activityName="B"/>
                                 <ActivityIcon backgroundColor="purple" left="4" activityName="C"/>
                                 <Dots/>
                                 <ActivityIcon backgroundColor="green" left="16" activityName="A"/>
                                 <ActivityIcon backgroundColor="yellow" left="18" activityName="B"/>
-                                <ActivityIcon backgroundColor="purple" left="20" activityName="C"/>
+                                <ActivityIcon backgroundColor="purple" left="20" activityName="C"/> */}
+                                {props.group.Alignment.trace.map(trace => {
+                                    i = i + 2;
+                                    return(
+                                        <ActivityIcon backgroundColor={colors[trace[1]]} left={i.toString()} activityName={trace[0]} key={i}/>
+                                    )
+                                })}
                             </div>
                         </GroupButtonContent>
                         <ArrowWrapper>

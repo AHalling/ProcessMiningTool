@@ -36,3 +36,9 @@ export const LegendColors : LegendColor = {
     "Log Move": "yellow",
     "Model Move": "purple",
 };
+
+export const colors : LegendColor = {
+    "consume": "green",
+    "trace-skip": "yellow",
+    "model-skip": "purple",
+};

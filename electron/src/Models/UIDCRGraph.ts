@@ -34,7 +34,6 @@ export const convertUIDCRGraphToDCRGraph = (model: UiDCRGraph, logName: string) 
                 Markings.executed.add(event.id)
             }
 
-
         });
     
         return result
@@ -49,8 +48,9 @@ export const convertUIDCRGraphToDCRGraph = (model: UiDCRGraph, logName: string) 
             responses[element] = new Set<string>()
         });
         relations.forEach(relation => {
-            if(relation.type === "conditionsFor")
-                conditions[relation.start_event_id].add(relation.end_event_id)
+            if(relation.type === "conditionsFor"){ 
+                conditions[relation.end_event_id].add(relation.start_event_id)
+            }
 
             if(relation.type === "excludesTo")
                 exclutions[relation.start_event_id].add(relation.end_event_id)
@@ -58,8 +58,8 @@ export const convertUIDCRGraphToDCRGraph = (model: UiDCRGraph, logName: string) 
             if(relation.type === "includesTo")
                 inclutions[relation.start_event_id].add(relation.end_event_id)
 
-            if(relation.type === "milestonesFor")
-                milestones[relation.start_event_id].add(relation.end_event_id)
+            if(relation.type === "milestonesFor") 
+                milestones[relation.end_event_id].add(relation.start_event_id)
 
             if(relation.type === "responseTo")
                 responses[relation.start_event_id].add(relation.end_event_id)
