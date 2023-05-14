@@ -9,6 +9,7 @@ type ConformanceCheckingProps = {
     setState: (state: State, graphId?: string) => void,
 }
 
+
 const ConformanceCheckingPage = (props: ConformanceCheckingProps) => {
     return(
         <ContentWrapper>

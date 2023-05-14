@@ -1,49 +1,50 @@
 import {AlignmentGroup} from "../../../../types/src/conformanceCheckingTypes";
 import AlignmentGroupArrow from "./AlignmentGroupArrow";
 import ActivityIcon from "./ActivityIcon";
-import Dots from "./DotsIcon";
-import { GroupColors, colors } from "../Constants";
+import {  colors } from "../Constants";
 import {LeftSideDiv, ButtonWrapper, RepresentationWrapper, ArrowWrapper, AlignmentGroupWrapper, ContentWrapper, GroupTitle, GroupButton, ContentButton, GroupButtonContent} from "../Styling/MainContentStyling";
 
 type AlignmentGroupProps = {
-    groupNumber: number,
     amountOfGroups: number,
+    groupNumber: number,
     group: AlignmentGroup,
+    openModalFunction: Function,
 }
 
 const AlignmentGrouping = (props: AlignmentGroupProps) => {
-    let color : string;
+    
     const handleGroupActivations = () => {
-        var currentGroup = document.getElementById(props.groupNumber.toString())
+        var currentGroup = document.getElementById(props.group.id)
 
-        for (let i : number = 1; i < props.amountOfGroups+1; i++) {
-
-            color =  GroupColors[props.groupNumber % GroupColors.length]
-            const group = document.getElementById(i.toString());
-
+        props.group.otherGroupsIDInResult.forEach(id => {
+            const group = document.getElementById(id);
             if(group !== null)
                 group.style.backgroundColor = "inherit";
-          }
+        });
 
         if(currentGroup !== null)
-            currentGroup.style.backgroundColor = color;
+            currentGroup.style.backgroundColor = props.group.color;
 
         // Emit electron event
-        window.electron.AlignmentGroupActivation(props.group, color)
+        window.electron.AlignmentGroupActivation(props.group,  props.group.color)
     }
     let i = 0;
+    const handleModalOpen = (type: String) =>{
+        window.electron.openModal(type);
+    }
+
     return (
-        <AlignmentGroupWrapper id={props.groupNumber.toString()}>
+        <AlignmentGroupWrapper id={props.group.id}>
                 <LeftSideDiv>
                     <GroupTitle>
                         Group: {props.groupNumber}
                     </GroupTitle>
 
                     <ButtonWrapper>
-                        <GroupButton onClick={() => console.log("Details clicked")}>
+                        <GroupButton onClick={() => handleModalOpen("Details")}>
                             Details
                         </GroupButton>
-                        <GroupButton onClick={() => console.log("Trace groups clicked")}>
+                        <GroupButton onClick={() => handleModalOpen("TraceGroups")}>
                             Trace groups
                         </GroupButton>
                     </ButtonWrapper>
@@ -53,13 +54,6 @@ const AlignmentGrouping = (props: AlignmentGroupProps) => {
                     <ContentButton onClick={() => handleGroupActivations()}>
                         <GroupButtonContent>
                             <div style={{display:"flex", flexDirection:"row", position:"relative", marginTop:"2vh"}}>
-                                {/* <ActivityIcon backgroundColor="green" left="0" activityName="A"/>
-                                <ActivityIcon backgroundColor="yellow" left="2" activityName="B"/>
-                                <ActivityIcon backgroundColor="purple" left="4" activityName="C"/>
-                                <Dots/>
-                                <ActivityIcon backgroundColor="green" left="16" activityName="A"/>
-                                <ActivityIcon backgroundColor="yellow" left="18" activityName="B"/>
-                                <ActivityIcon backgroundColor="purple" left="20" activityName="C"/> */}
                                 {props.group.Alignment.trace.map(trace => {
                                     i = i + 2;
                                     return(

@@ -11,7 +11,6 @@ type ResultListProps = {
 
 const ResultList = (props: ResultListProps) => {
     let i = 0;
-    console.log(props.Results)
     return(
         <ListWrapper>
             <ListOfResults>

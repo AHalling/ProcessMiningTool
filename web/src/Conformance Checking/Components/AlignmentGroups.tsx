@@ -1,9 +1,12 @@
 import {Result} from "../../../../types/src/conformanceCheckingTypes";
 import {AlignmentGroupsWrapper, AlignmentGroupWrapper} from "../Styling/MainContentStyling";
 import AlignmentGrouping from "./AlignmentGroup";
+import { Modals } from "types/src/conformanceCheckingTypes";
 
 type AlignmentGroupsProps = {
-    Result: Result
+    Result: Result,
+    SetModalOpen: Function,
+    modalType: Modals,
 }
 
 const AlignmentGroups = (props: AlignmentGroupsProps) => {
@@ -14,7 +17,7 @@ const AlignmentGroups = (props: AlignmentGroupsProps) => {
                 i = i + 1;
                 return(
                     <AlignmentGroupWrapper key={i}>
-                        <AlignmentGrouping groupNumber={i} amountOfGroups={props.Result.alignmentgroups.length} group={group}/>
+                        <AlignmentGrouping groupNumber={i} amountOfGroups={props.Result.alignmentgroups.length} group={group} openModalFunction={props.SetModalOpen}/>
                     </AlignmentGroupWrapper>
                 )
             })}

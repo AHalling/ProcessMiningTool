@@ -8,7 +8,7 @@ import { saveGraph, saveAsGraph, loadGraph, newGraph, getGraphFiles, loadSpecifi
 import {readAlgorithms} from "../src/algorithms";
 import {loadWorkspaceFiles} from "./workspace";
 import { State, isState } from "../../types/src/types";
-import {isResult} from "../../types/src/conformanceCheckingTypes";
+import {isResult, isResults} from "../../types/src/conformanceCheckingTypes";
 import { APP_MODEL_PATH, PRELOAD_FILE_PATH, APP_ALGORITHM_PATH } from "./constants";
 import { mineLog } from "./mining";
 import { getStatistics } from "./statistics";
@@ -151,6 +151,16 @@ function createWindow() {
             globalMainWindow.webContents.send('alignmentResult', alignment)
           })
     }
+  })
+
+  ipcMain.on('setResult', (event: unknown, result: unknown) => {
+    if (isResult(result)){
+        globalMainWindow.webContents.send('newResults', result)
+    }
+  })
+  ipcMain.on('openModal',(event: unknown, modal: unknown) =>{
+    if(typeof modal === "string" )
+      globalMainWindow.webContents.send('openModalResult', modal)
   })
   
   init();

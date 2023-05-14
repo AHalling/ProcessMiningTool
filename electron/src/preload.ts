@@ -4,6 +4,7 @@ import { Result } from "electron/main";
 import{ State} from "../../types/src/types";
 import { FileResult, isFileResult } from "types/src/fileTypes";
 import { AlignmentGroup } from "types/build/conformanceCheckingTypes";
+import { Results } from "types/src/conformanceCheckingTypes";
 
 contextBridge.exposeInMainWorld(
     'electron', {
@@ -25,6 +26,8 @@ contextBridge.exposeInMainWorld(
       listenToAlignmentGroupActivation : (callback: Function) => ipcRenderer.on('alignmentGroupActivationResult', (event, msg) => callback(msg)),
       listenToSelectFile : (callback: Function) => ipcRenderer.on('selectedFile', (event, msg) => callback(msg)),
       listenToAlignmentResult : (callback: Function) => ipcRenderer.on('alignmentResult', (event, msg) => callback(msg)),
+      listenToSetResult : (callback: Function) => ipcRenderer.on('newResults', (event, msg) => callback(msg)),
+      listenForModalOpen : (callback: Function) => ipcRenderer.on('openModalResult', (event, msg) => callback(msg)),
       getGraphFiles: () => {
         ipcRenderer.send('getGraphFiles');
       },
@@ -60,6 +63,7 @@ contextBridge.exposeInMainWorld(
       clearAlignmentGroupActivation: () => ipcRenderer.removeAllListeners('alignmentGroupActivationResult'),
       clearSelectFile : () => ipcRenderer.removeAllListeners('selectedFile'),
       clearAlignmentResult : () => ipcRenderer.removeAllListeners('alignmentResult'),
+      clearSetResult : () => ipcRenderer.removeAllListeners('setResult'),
       clearToastListener: () => {
         ipcRenderer.removeAllListeners('toast');
       },
@@ -92,6 +96,12 @@ contextBridge.exposeInMainWorld(
       },
       computeAlignment: (Log: FileResult, Model: FileResult) => {
         ipcRenderer.send('alignment', Log, Model)
+      },
+      setResult: (result: Result) => {
+        ipcRenderer.send('setResult', result)
+      },
+      openModal:( modal: String) => {
+        ipcRenderer.send('openModal', modal)
       },
     }
 )

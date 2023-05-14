@@ -10,18 +10,10 @@ type resultButtonProps = {
 }
 
 const handleClick = (props: resultButtonProps) => {
-    console.log("Result pressed.")
-    props.setState(
-        {
-            pages:"ConformanceCheckingPage",
-            log:props.state.log,
-            result: props.result,
-            workspacePath:props.state.workspacePath
-        }, undefined, props.results)
+    window.electron.setResult(props.result);
 }
 
 const ResultButton = (props: resultButtonProps) => {
-    // TODO: Use electron to update the page via the API. Do not just re-render
     return(
         <Button onClick={() => handleClick(props)}>
             {props.result?.name}

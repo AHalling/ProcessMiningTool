@@ -1,5 +1,6 @@
 import {Alignment, Traces, DCRGraphPP} from "../../DCR-Alignment/types";
 import {isEventMap, isMarking, isEventSet, EventMap} from "./miningTypes"
+import { Guid } from "guid-typescript";
 
 export interface Results {
     results: Array<Result>,
@@ -8,6 +9,8 @@ export interface Results {
 export interface LogAlignments {
     alignments: Array<Alignment>
 }
+
+export type Modals = "Details" | "TraceGroups" | "Export" | "ExportFig";
 
 export interface Result {
     name: string,
@@ -23,9 +26,16 @@ export interface AlignmentGroup {
     Traces: Traces,
     Alignment: Alignment,
     GroupStatistics: TestStatistics,
+    color: string,
+    id: string,
+    otherGroupsIDInResult: Array<string>,
 }
 
 export const isResult = (obj: any) => {
+    return true; // TODO
+}
+
+export const isResults = (obj: any) => {
     return true; // TODO
 }
 

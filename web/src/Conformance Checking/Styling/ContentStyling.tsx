@@ -6,6 +6,7 @@ export const ContentWrapper = styled.div`
     justify-content: space-between;
     height: 100%;
     overflow-x: hidden;
+    z-index: 999;
 `
 
 export const MainContent = styled.div`

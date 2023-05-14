@@ -1,14 +1,15 @@
 import { FileResult } from "types/src/fileTypes";
-import {Alignment, DCRGraph} from "../../../DCR-Alignment/types"
 import align from "../../../DCR-Alignment/src/align";
 import {parseLog} from "../../../DisCoveR-TS-main/fsInteraction";
-import {Trace, Traces, DCRGraphPP} from "../../../DCR-Alignment/types"
+import {Traces, DCRGraphPP} from "../../../DCR-Alignment/types"
 import {Result, LogAlignments, isDCRGraphPP, AlignmentGroup} from "../../../types/src/conformanceCheckingTypes";
 import {loadFile} from "../fileManipulation"
 import {isDCRGraph} from "../../../types/src/miningTypes";
 import { isUiDCRGraph } from "../../../types/src/types";
 import {formatModel, formatDCRGraphToDCRGraphPP} from "../Models/modelHelpers"
 import {computeGroupStatistics} from "./Statistics"
+import { GroupColors } from "./Constants";
+import { Guid } from "guid-typescript";
 
 export const computeAlignment = async (Log: FileResult, Model: FileResult) : Promise<Result> => {
     // Get traces
@@ -69,13 +70,25 @@ const GetGraphFromModel = async (Model: FileResult, LogName: string) : Promise<D
 
 const OrganizeAlignments = (logAlignments : LogAlignments, traces: Traces) : Array<AlignmentGroup> => {
   var groups : Array<AlignmentGroup> = []
+  var i : number = 1;
   logAlignments.alignments.forEach((alignment) => {
     groups.push({
       Traces: traces,
       Alignment: alignment,
       GroupStatistics: computeGroupStatistics(alignment),
+      color: GroupColors[i % GroupColors.length],
+      id: Guid.create().toString(),
+      otherGroupsIDInResult: []
     })
+    i++;
   })
 
-  return groups
+  return getOtherGroupsInResult(groups)
+}
+
+const getOtherGroupsInResult = (groups: Array<AlignmentGroup>) : Array<AlignmentGroup>  => {
+  groups.forEach(group => {
+    group.otherGroupsIDInResult = groups.filter(function(g) { return g.id !== group.id; }).map(g => g.id);
+  });
+  return groups;
 }
