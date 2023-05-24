@@ -71,6 +71,7 @@ const GetGraphFromModel = async (Model: FileResult, LogName: string) : Promise<D
 const OrganizeAlignments = (logAlignments : LogAlignments, traces: Traces) : Array<AlignmentGroup> => {
   var groups : Array<AlignmentGroup> = []
   var i : number = 1;
+
   logAlignments.alignments.forEach((alignment) => {
     groups.push({
       Traces: traces,

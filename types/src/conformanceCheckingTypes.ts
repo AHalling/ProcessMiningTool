@@ -67,7 +67,7 @@ export interface GeneralStatistics{
 }
 
 export interface TestStatistics {
-    [key: string]: number,
+    [key: string]: number | string,
 }
 export type Statistics = GroupStatistics | GeneralStatistics | null;
 
