@@ -18,14 +18,14 @@ export interface Result {
     modelName: string,
     logPath: string,
     modelPath: string,
-    statistics: TestStatistics,
+    statistics: DynamicStatistics,
     alignmentgroups: Array<AlignmentGroup>,
 }
 
 export interface AlignmentGroup {
     Traces: Traces,
     Alignment: Alignment,
-    GroupStatistics: TestStatistics,
+    GroupStatistics: DynamicStatistics,
     color: string,
     id: string,
     otherGroupsIDInResult: Array<string>,
@@ -66,7 +66,7 @@ export interface GeneralStatistics{
     medianScore: number,
 }
 
-export interface TestStatistics {
+export interface DynamicStatistics {
     [key: string]: number | string,
 }
 export type Statistics = GroupStatistics | GeneralStatistics | null;

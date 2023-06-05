@@ -7,9 +7,10 @@ import {loadFile} from "../fileManipulation"
 import {isDCRGraph} from "../../../types/src/miningTypes";
 import { isUiDCRGraph } from "../../../types/src/types";
 import {formatModel, formatDCRGraphToDCRGraphPP} from "../Models/modelHelpers"
-import {computeGroupStatistics} from "./Statistics"
+import {computeGroupStatistics} from "./GroupStatistics"
 import { GroupColors } from "./Constants";
 import { Guid } from "guid-typescript";
+import { ResultStatistics } from "./Statistics";
 
 export const computeAlignment = async (Log: FileResult, Model: FileResult) : Promise<Result> => {
     // Get traces
@@ -25,12 +26,7 @@ export const computeAlignment = async (Log: FileResult, Model: FileResult) : Pro
         modelName: Model.name,
         modelPath: Model.path,
         name: Log.name.split(".")[0] + "|" + Model.name.split(".")[0],
-        statistics: {
-          maxScore: 0.95,
-          minScore: 0.10,
-          averageScore: 0.45,
-          medianScore: 0.51,
-      },
+        statistics: {},
         alignmentgroups: [],
     }
 
@@ -43,7 +39,7 @@ export const computeAlignment = async (Log: FileResult, Model: FileResult) : Pro
       });
 
       result.alignmentgroups = OrganizeAlignments(logAlignments, traces)
-
+      result.statistics = ResultStatistics(result)
     return result
 }
 

@@ -11,7 +11,7 @@ import {MainContentWrapper, Groups} from "../Styling/MainContentStyling";
 import ResultList from "./ResultList";
 import {ResultsLabel, OptionsLabel, StatisticsLabel, HeatmapLabel, HeightDictionary, GroupStatisticsLabel, ExportLabel, LegendsLabel} from "../Constants";
 import {State} from "../../../../types/src/types";
-import {Results, TestStatistics} from "../../../../types/src/conformanceCheckingTypes";
+import {Results} from "../../../../types/src/conformanceCheckingTypes";
 import Modal from "../../Shared/Components/Modal";
 import DetailsContent from "../Components/DetailsContent";
 import TraceGroups from "./TraceGroups";
@@ -40,14 +40,6 @@ const Layout = (props:LayoutProps) => {
     const {SelectedGroup} = useSelectedGroupState();
     const {openDetailsModal, openGroupsModal, openExportModal, openExportFigModal, setModalState} = useModalState();
 
-
-    const GeneralStatistics : TestStatistics= {
-        maxScore: 0.95,
-        minScore: 0.10,
-        averageScore: 0.45,
-        medianScore: 0.51,
-    }
-
     return(
         <ContentWrapper>
             {openDetailsModal && <Modal setModalState={setModalState} modalType="Details" content={DetailsContent({result: currResult})} title="Details" continueFunction={ null} data={null} ></Modal>}
@@ -57,7 +49,7 @@ const Layout = (props:LayoutProps) => {
             <LeftBar ref={parentRef}>
                 <ToggleButton Title={ResultsLabel + ': ' + props.state.result?.name}  ComponentToRender={ResultList({Results:props.Results, state: props.state, setState:props.setState})} ComponentHeight={HeightDictionary[ResultsLabel]}></ToggleButton> 
                 <ToggleButton Title={OptionsLabel} ComponentToRender={Test({Name:"Options"})} ComponentHeight={HeightDictionary[OptionsLabel]}></ToggleButton>
-                <ToggleButton Title={StatisticsLabel} ComponentToRender={ResultsStatistics({Stats:GeneralStatistics})} ComponentHeight={HeightDictionary[StatisticsLabel]}></ToggleButton> 
+                <ToggleButton Title={StatisticsLabel} ComponentToRender={ResultsStatistics({Stats:currResult?.statistics})} ComponentHeight={HeightDictionary[StatisticsLabel]}></ToggleButton> 
                 <ToggleButton Title={HeatmapLabel} ComponentToRender={Test({Name:"Figure placeholder"})} ComponentHeight={HeightDictionary[HeatmapLabel]}></ToggleButton>
                 <ToggleButton Title={LegendsLabel} ComponentToRender={Legends()} ComponentHeight={HeightDictionary[HeatmapLabel]}></ToggleButton>  
             </LeftBar>

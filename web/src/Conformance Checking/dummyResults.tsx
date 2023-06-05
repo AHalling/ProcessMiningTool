@@ -1,4 +1,4 @@
-import { Results, Result, GeneralStatistics, GroupStatistics, TestStatistics } from "types/src/conformanceCheckingTypes";
+import { Results, Result, GeneralStatistics, GroupStatistics, DynamicStatistics } from "types/src/conformanceCheckingTypes";
 
 const dummyResults = () => {
     const result1: Result = {
@@ -108,7 +108,7 @@ export const DummyGroupStatistics = () => {
 }
 
 export const DummyTestStatistics = () => {
-    const stats : TestStatistics = {
+    const stats : DynamicStatistics = {
         numberOfTraces: 40,
         groupScore: 0.92,
         Activations: 40,
@@ -119,7 +119,7 @@ export const DummyTestStatistics = () => {
 }
 
 export const DummyTestStatistics1 = () => {
-    const stats : TestStatistics = {
+    const stats : DynamicStatistics = {
         numberOfTraces: 1,
         groupScore: 0.2,
         Activations: 3,

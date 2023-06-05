@@ -1,10 +1,10 @@
-import {TestStatistics} from "types/src/conformanceCheckingTypes";
+import {DynamicStatistics} from "types/src/conformanceCheckingTypes";
 import {StatisticNames} from "../Constants";
 
 import {StatisticsTableRow, StatisticsTableDataKey, StatisticsTableDataValue, StatisticsTable} from "../Styling/StatisticsBarStyling";
 
 type StatisticsProps={
-    Stats: TestStatistics | undefined, 
+    Stats: DynamicStatistics | undefined, 
 }
 
 const ResultsStatistics = (props: StatisticsProps) => {

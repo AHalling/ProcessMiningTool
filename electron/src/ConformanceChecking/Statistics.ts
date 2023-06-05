@@ -1,62 +1,52 @@
-import { Alignment, Move } from "types/build/DCR-Alignment/types";
-import { TestStatistics } from "types/src/conformanceCheckingTypes";
+import { AlignmentGroup, DynamicStatistics, Result } from "types/src/conformanceCheckingTypes";
 
-export const computeGroupStatistics = (group: Alignment) : TestStatistics  => {
-    var [logskips, modelskips, aligned,  topLog, TopModel] = computeSkips(group);
+export const ResultStatistics = (result: Result) : DynamicStatistics => {
+    let scores : number[] = [];
+    // Compute score for each group.
+    result.alignmentgroups.forEach(group => {
+        scores.push(computeScoreForGroup(group));
+    });
 
-    const stats : TestStatistics = {
-        LogSkips: logskips,
-        ModelSkips: modelskips,
-        Alignments: aligned,
-        TopLogSkip: topLog,
-        TopModelSkip: TopModel,
+    // Compute average score
+    var average = scores.reduce( ( p, c ) => p + c, 0 ) / scores.length
+    // Compute median score
+    scores = scores.sort();
+
+    var median = 0;
+    var half = Math.floor(scores.length / 2);
+  
+    if (scores.length % 2){
+        median = scores[half];
+    }else{
+        median =  (scores[half - 1] + scores[half]) / 2.0;
     }
-    return stats
+    // Pick max and min.
+    var max = Math.max(...scores);
+    var min = Math.min(...scores)
+    // Put into object and return.
+    return {
+        averageScore: average,
+        medianScore: median,
+        maxScore: max,
+        minScore: min,
+    }
 }
 
-const computeSkips = (group: Alignment) : [number, number, number,  string, string] => {
-    let logskips = 0;
-    let modelskips = 0;
-    let aligned = 0;
-    let ModelSkips : { [name: string]: number } = {};
-    let LogSkips : { [name: string]: number } = {};
-    
-    group.trace.forEach(trace => {
-        ModelSkips[trace[0]] = 0;
-        LogSkips[trace[0]] = 0;
-    });
-
-    group.trace.forEach(trace => {
-        if(trace[1] == "model-skip"){
-            modelskips++;
-            ModelSkips[trace[0]] = ModelSkips[trace[0]] + 1;
+const computeScoreForGroup = (group : AlignmentGroup) : number =>{
+    var correct = 0
+    var failure = 0
+    var length = 0;
+    group.Alignment.trace.forEach(trace => {
+        length = length + 1;
+        if(trace[1] !== "consume")
+        {
+            failure++;
         }
-
-        else if(trace[1] == "trace-skip"){
-            logskips++;
-            LogSkips[trace[0]] = LogSkips[trace[0]] + 1;
-
-        }
-        else
-            aligned++;
-    });
-
-    return [logskips, modelskips, aligned, getMax(ModelSkips) , getMax(LogSkips)]
-}
-
-const getMax = (obj: { [name: string]: number }) : string => {
-    let highestValue = 0;
-    let currentEvent = "";
-
-    Object.keys(obj).forEach(key => {
-        if(obj[key] > highestValue){
-            highestValue = obj[key]
-            currentEvent = key
+        else{
+            correct++;
         }
     });
 
-    if(currentEvent == "")
-        currentEvent = "None"
-
-    return currentEvent;
+    var result = (correct / length)
+    return result;
 }
