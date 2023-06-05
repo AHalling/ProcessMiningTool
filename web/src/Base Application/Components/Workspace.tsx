@@ -42,7 +42,7 @@ const WorkspaceComponent = (props: Workspace) => {
     const handleSubmit = () => {
         setPath(inputPath);
         props.setState({pages:"LandingPage", log:null, result: null, workspacePath:inputPath})
-
+        console.log("Test")
     }
 
     const handleChange = (event: any) => {

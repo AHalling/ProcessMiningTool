@@ -2,7 +2,7 @@ import { FileResult } from "types/src/fileTypes";
 import align from "../../../DCR-Alignment/src/align";
 import {parseLog} from "../../../DisCoveR-TS-main/fsInteraction";
 import {Traces, DCRGraphPP} from "../../../DCR-Alignment/types"
-import {Result, LogAlignments, isDCRGraphPP, AlignmentGroup} from "../../../types/src/conformanceCheckingTypes";
+import {Result, LogAlignments, isDCRGraphPP, AlignmentGroup, Options} from "../../../types/src/conformanceCheckingTypes";
 import {loadFile} from "../fileManipulation"
 import {isDCRGraph} from "../../../types/src/miningTypes";
 import { isUiDCRGraph } from "../../../types/src/types";
@@ -12,7 +12,9 @@ import { GroupColors } from "./Constants";
 import { Guid } from "guid-typescript";
 import { ResultStatistics } from "./Statistics";
 
-export const computeAlignment = async (Log: FileResult, Model: FileResult) : Promise<Result> => {
+export const computeAlignment = async (Log: FileResult, Model: FileResult, Options: Options) : Promise<Result> => {
+  console.log("Options in computeAlignment")
+  console.log(Options)
     // Get traces
     const traces : Traces = parseLog(Log.path).traces;
 
@@ -35,7 +37,7 @@ export const computeAlignment = async (Log: FileResult, Model: FileResult) : Pro
 
     Object.keys(traces).forEach(traceKey => {
       if(isDCRGraphPP(model))
-        logAlignments.alignments.push(align(traces[traceKey], model))
+        logAlignments.alignments.push(align(traces[traceKey], model, Options))
       });
 
       result.alignmentgroups = OrganizeAlignments(logAlignments, traces)

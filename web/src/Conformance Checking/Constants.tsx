@@ -47,3 +47,7 @@ export const colors : LegendColor = {
     "trace-skip": "yellow",
     "model-skip": "purple",
 };
+
+export const defaultConsumeCost = 0;
+export const defaultModelSkipCost = 1;
+export const defaultLogSkipCost = 1;

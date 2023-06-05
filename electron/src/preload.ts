@@ -4,7 +4,7 @@ import { Result } from "electron/main";
 import{ State} from "../../types/src/types";
 import { FileResult, isFileResult } from "types/src/fileTypes";
 import { AlignmentGroup } from "types/build/conformanceCheckingTypes";
-import { Results } from "types/src/conformanceCheckingTypes";
+import { Options, Results } from "types/src/conformanceCheckingTypes";
 
 contextBridge.exposeInMainWorld(
     'electron', {
@@ -28,6 +28,7 @@ contextBridge.exposeInMainWorld(
       listenToAlignmentResult : (callback: Function) => ipcRenderer.on('alignmentResult', (event, msg) => callback(msg)),
       listenToSetResult : (callback: Function) => ipcRenderer.on('newResults', (event, msg) => callback(msg)),
       listenForModalOpen : (callback: Function) => ipcRenderer.on('openModalResult', (event, msg) => callback(msg)),
+      listenForOptions : (callback: Function) => ipcRenderer.on('sendOptions', (event, msg) => callback(msg)),
       getGraphFiles: () => {
         ipcRenderer.send('getGraphFiles');
       },
@@ -64,6 +65,7 @@ contextBridge.exposeInMainWorld(
       clearSelectFile : () => ipcRenderer.removeAllListeners('selectedFile'),
       clearAlignmentResult : () => ipcRenderer.removeAllListeners('alignmentResult'),
       clearSetResult : () => ipcRenderer.removeAllListeners('setResult'),
+      clearOptionsListener : () => ipcRenderer.removeAllListeners('sendOptions'),
       clearToastListener: () => {
         ipcRenderer.removeAllListeners('toast');
       },
@@ -94,8 +96,8 @@ contextBridge.exposeInMainWorld(
       SelectFile: (type: string) => {
         ipcRenderer.send('selectFile', type)
       },
-      computeAlignment: (Log: FileResult, Model: FileResult) => {
-        ipcRenderer.send('alignment', Log, Model)
+      computeAlignment: (Log: FileResult, Model: FileResult, Options: Options) => {
+        ipcRenderer.send('alignment', Log, Model, Options)
       },
       setResult: (result: Result) => {
         ipcRenderer.send('setResult', result)
@@ -103,5 +105,8 @@ contextBridge.exposeInMainWorld(
       openModal:( modal: String) => {
         ipcRenderer.send('openModal', modal)
       },
+      sumbitOptions: (options: Options) => {
+        ipcRenderer.send('options', options)
+      }
     }
 )

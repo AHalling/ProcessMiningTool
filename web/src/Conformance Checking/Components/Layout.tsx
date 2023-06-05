@@ -22,6 +22,8 @@ import useSelectedGroupState from "../CustomHooks/useSelectedGroupState";
 import useSelectedFileState from "../CustomHooks/useSelectedFileState";
 import useResultComputation from "../CustomHooks/useResultComputation";
 import useHeightState from "../CustomHooks/useHeightState";
+import OptionsContent from "./Options";
+import useOptions from "../CustomHooks/useOptions";
 
 
 type LayoutProps ={
@@ -33,10 +35,10 @@ type LayoutProps ={
 }
 
 const Layout = (props:LayoutProps) => {
-
     const {GroupStatisticsHeight, ExportHeight, parentRef} = useHeightState();
     const {Log, Model} = useSelectedFileState();
-    const {currResult} = useResultComputation(Log, Model, props.Results);
+    const currOptions = useOptions();
+    const {currResult} = useResultComputation(Log, Model, props.Results, currOptions);
     const {SelectedGroup} = useSelectedGroupState();
     const {openDetailsModal, openGroupsModal, openExportModal, openExportFigModal, setModalState} = useModalState();
 
@@ -48,7 +50,7 @@ const Layout = (props:LayoutProps) => {
             {openExportFigModal && <Modal setModalState={setModalState} modalType="ExportFig" content={ExportFigureContent()} title="Export Figure" continueFunction={ null} data={null} ></Modal>}
             <LeftBar ref={parentRef}>
                 <ToggleButton Title={ResultsLabel + ': ' + props.state.result?.name}  ComponentToRender={ResultList({Results:props.Results, state: props.state, setState:props.setState})} ComponentHeight={HeightDictionary[ResultsLabel]}></ToggleButton> 
-                <ToggleButton Title={OptionsLabel} ComponentToRender={Test({Name:"Options"})} ComponentHeight={HeightDictionary[OptionsLabel]}></ToggleButton>
+                <ToggleButton Title={OptionsLabel} ComponentToRender={OptionsContent()} ComponentHeight={HeightDictionary[OptionsLabel]}></ToggleButton>
                 <ToggleButton Title={StatisticsLabel} ComponentToRender={ResultsStatistics({Stats:currResult?.statistics})} ComponentHeight={HeightDictionary[StatisticsLabel]}></ToggleButton> 
                 <ToggleButton Title={HeatmapLabel} ComponentToRender={Test({Name:"Figure placeholder"})} ComponentHeight={HeightDictionary[HeatmapLabel]}></ToggleButton>
                 <ToggleButton Title={LegendsLabel} ComponentToRender={Legends()} ComponentHeight={HeightDictionary[HeatmapLabel]}></ToggleButton>  

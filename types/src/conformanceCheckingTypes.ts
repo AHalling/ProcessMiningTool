@@ -88,3 +88,13 @@ export const isDCRGraphPP = (obj: any): obj is DCRGraphPP => {
       )
 }
 
+export interface Options {
+    ConsumeCost : number,
+    ModelSkipCost: number,
+    LogSkipCost: number,
+}
+
+export const isOptions = (obj: any): obj is Options => {
+    return true;
+}
+

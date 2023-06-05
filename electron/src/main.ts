@@ -8,12 +8,12 @@ import { saveGraph, saveAsGraph, loadGraph, newGraph, getGraphFiles, loadSpecifi
 import {readAlgorithms} from "../src/algorithms";
 import {loadWorkspaceFiles} from "./workspace";
 import { State, isState } from "../../types/src/types";
-import {isResult, isResults} from "../../types/src/conformanceCheckingTypes";
+import {isResult, isOptions} from "../../types/src/conformanceCheckingTypes";
 import { APP_MODEL_PATH, PRELOAD_FILE_PATH, APP_ALGORITHM_PATH } from "./constants";
 import { mineLog } from "./mining";
 import { getStatistics } from "./statistics";
 import {SelectFile} from "./fileManipulation";
-import {FileType, isFileType, isFileResult} from "../../types/src/fileTypes";
+import {isFileType, isFileResult} from "../../types/src/fileTypes";
 import {computeAlignment} from "./ConformanceChecking/Alignment"
 
 let globalMainWindow: BrowserWindow;
@@ -145,9 +145,9 @@ function createWindow() {
     }
   })
 
-  ipcMain.on('alignment', (event: unknown, Log: unknown, Model: unknown) => {
-    if (isFileResult(Log) && isFileResult(Model)){
-          computeAlignment(Log, Model).then((alignment) => {
+  ipcMain.on('alignment', (event: unknown, Log: unknown, Model: unknown, Options: unknown) => {
+    if (isFileResult(Log) && isFileResult(Model) && isOptions(Options)){
+          computeAlignment(Log, Model, Options).then((alignment) => {
             globalMainWindow.webContents.send('alignmentResult', alignment)
           })
     }
@@ -161,6 +161,11 @@ function createWindow() {
   ipcMain.on('openModal',(event: unknown, modal: unknown) =>{
     if(typeof modal === "string" )
       globalMainWindow.webContents.send('openModalResult', modal)
+  })
+
+  ipcMain.on('options', (event: unknown, options: unknown) => {
+    if(isOptions(options))
+      globalMainWindow.webContents.send('sendOptions', options)
   })
   
   init();

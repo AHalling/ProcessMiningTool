@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { AlignmentGroup, Result, Results } from "types/build/conformanceCheckingTypes";
+import { Options } from "types/src/conformanceCheckingTypes";
 import { FileResult } from "types/src/fileTypes";
 
-const useResultComputation = (Log: FileResult | undefined, Model: FileResult | undefined, results: Results) => {
+const useResultComputation = (Log: FileResult | undefined, Model: FileResult | undefined, results: Results, options: Options) => {
     const [currResult, setCurrResult] = useState<Result>()
 
     const clearColors = (alignmentgroups: Array<AlignmentGroup>) => {
@@ -28,7 +29,7 @@ const useResultComputation = (Log: FileResult | undefined, Model: FileResult | u
 
                 window.electron.clearAlignmentResult();
             })
-            window.electron.computeAlignment(Log, Model);
+            window.electron.computeAlignment(Log, Model, options);
 
         }
 
