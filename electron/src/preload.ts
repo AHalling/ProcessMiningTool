@@ -5,6 +5,7 @@ import{ State} from "../../types/src/types";
 import { FileResult, isFileResult } from "types/src/fileTypes";
 import { AlignmentGroup } from "types/build/conformanceCheckingTypes";
 import { Options, Results } from "types/src/conformanceCheckingTypes";
+import { ChartOptions, PlotTypes } from "types/src/chartTypes";
 
 contextBridge.exposeInMainWorld(
     'electron', {
@@ -29,6 +30,7 @@ contextBridge.exposeInMainWorld(
       listenToSetResult : (callback: Function) => ipcRenderer.on('newResults', (event, msg) => callback(msg)),
       listenForModalOpen : (callback: Function) => ipcRenderer.on('openModalResult', (event, msg) => callback(msg)),
       listenForOptions : (callback: Function) => ipcRenderer.on('sendOptions', (event, msg) => callback(msg)),
+      listenForFigure: (callback: Function) => ipcRenderer.on('sendFigure', (event, msg) => callback(msg)),
       getGraphFiles: () => {
         ipcRenderer.send('getGraphFiles');
       },
@@ -66,6 +68,7 @@ contextBridge.exposeInMainWorld(
       clearAlignmentResult : () => ipcRenderer.removeAllListeners('alignmentResult'),
       clearSetResult : () => ipcRenderer.removeAllListeners('setResult'),
       clearOptionsListener : () => ipcRenderer.removeAllListeners('sendOptions'),
+      clearFigureListener : () => ipcRenderer.removeAllListeners('sendFigure'),
       clearToastListener: () => {
         ipcRenderer.removeAllListeners('toast');
       },
@@ -107,6 +110,9 @@ contextBridge.exposeInMainWorld(
       },
       sumbitOptions: (options: Options) => {
         ipcRenderer.send('options', options)
-      }
+      },
+      createFigure: (data: any, options: ChartOptions, type: PlotTypes) => {
+        ipcRenderer.send('figure', data, options, type)
+      },
     }
 )

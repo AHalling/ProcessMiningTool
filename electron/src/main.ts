@@ -15,6 +15,7 @@ import { getStatistics } from "./statistics";
 import {SelectFile} from "./fileManipulation";
 import {isFileType, isFileResult} from "../../types/src/fileTypes";
 import {computeAlignment} from "./ConformanceChecking/Alignment"
+import {isFigure} from "../../types/src/chartTypes";
 
 let globalMainWindow: BrowserWindow;
 let globalState: State = {pages: "LandingPage", log:null, result: null, workspacePath:""};
@@ -166,6 +167,11 @@ function createWindow() {
   ipcMain.on('options', (event: unknown, options: unknown) => {
     if(isOptions(options))
       globalMainWindow.webContents.send('sendOptions', options)
+  })
+
+  ipcMain.on('figure', (event: unknown, data: unknown, options: unknown, type: unknown) => {
+    if(isFigure(data) && isFigure(options) && typeof type === "string")
+      globalMainWindow.webContents.send('sendFigure', {data, options, type})
   })
   
   init();

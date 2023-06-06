@@ -41,7 +41,7 @@ const useResultComputation = (Log: FileResult | undefined, Model: FileResult | u
             setCurrResult(result)
         })
 
-    }, [Log, Model, results.results])
+    }, [Log, Model, options, results.results])
     return {currResult}
 
 }
