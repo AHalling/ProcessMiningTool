@@ -36,7 +36,7 @@ type LayoutProps ={
 }
 
 const Layout = (props:LayoutProps) => {
-    const {GroupStatisticsHeight, ExportHeight, parentRef} = useHeightState();
+    const {parentRef} = useHeightState();
     const {Log, Model} = useSelectedFileState();
     const currOptions = useOptions();
     const {currResult} = useResultComputation(Log, Model, props.Results, currOptions);
@@ -51,11 +51,11 @@ const Layout = (props:LayoutProps) => {
             {openExportModal && <Modal setModalState={setModalState} modalType="Export" content={ExportContent()} title="Export" continueFunction={ null} data={props.Results} ></Modal>}
             {openExportFigModal && <Modal setModalState={setModalState} modalType="ExportFig" content={ExportFigureContent()} title="Export Figure" continueFunction={ null} data={null} ></Modal>}
             <LeftBar ref={parentRef}>
-                <ToggleButton Title={ResultsLabel + ': ' + props.state.result?.name}  ComponentToRender={ResultList({Results:props.Results, state: props.state, setState:props.setState})} ComponentHeight={HeightDictionary[ResultsLabel]}></ToggleButton> 
-                <ToggleButton Title={OptionsLabel} ComponentToRender={OptionsContent()} ComponentHeight={HeightDictionary[OptionsLabel]}></ToggleButton>
-                <ToggleButton Title={StatisticsLabel} ComponentToRender={ResultsStatistics({Stats:currResult?.statistics})} ComponentHeight={HeightDictionary[StatisticsLabel]}></ToggleButton> 
-                <ToggleButton Title={HeatmapLabel} ComponentToRender={ConformanceCheckingCharts()} ComponentHeight={HeightDictionary[HeatmapLabel]}></ToggleButton>
-                <ToggleButton Title={LegendsLabel} ComponentToRender={Legends()} ComponentHeight={HeightDictionary[HeatmapLabel]}></ToggleButton>  
+                <ToggleButton Title={props.state.result?.name ?? "No result"}  ComponentToRender={ResultList({Results:props.Results, state: props.state, setState:props.setState})} ComponentHeight={HeightDictionary[ResultsLabel]} CustomHeight={false}></ToggleButton> 
+                <ToggleButton Title={OptionsLabel} ComponentToRender={OptionsContent()} ComponentHeight={HeightDictionary[OptionsLabel]}CustomHeight={false}></ToggleButton>
+                <ToggleButton Title={StatisticsLabel} ComponentToRender={ResultsStatistics({Stats:currResult?.statistics})} ComponentHeight={HeightDictionary[StatisticsLabel]}CustomHeight={false}></ToggleButton> 
+                <ToggleButton Title={HeatmapLabel} ComponentToRender={ConformanceCheckingCharts()} ComponentHeight={HeightDictionary[HeatmapLabel]}CustomHeight={false}></ToggleButton>
+                <ToggleButton Title={LegendsLabel} ComponentToRender={Legends()} ComponentHeight={HeightDictionary[HeatmapLabel]}CustomHeight={false}></ToggleButton>  
             </LeftBar>
             <MainContent>
                 <MainContentWrapper>
@@ -66,8 +66,8 @@ const Layout = (props:LayoutProps) => {
                 </MainContentWrapper>
             </MainContent>
             <StatisticsBar id="StatisticsBar" backgroundColor={SelectedGroup?.color ?? "none"}>
-                <ToggleButton Title={GroupStatisticsLabel}  ComponentToRender={ResultsStatistics({Stats: SelectedGroup?.GroupStatistics})} ComponentHeight={GroupStatisticsHeight}></ToggleButton>
-                <ToggleButton Title={ExportLabel}  ComponentToRender={Export()} ComponentHeight={ExportHeight}></ToggleButton> 
+                <ToggleButton Title={GroupStatisticsLabel}  ComponentToRender={ResultsStatistics({Stats: SelectedGroup?.GroupStatistics})} ComponentHeight={67.9} CustomHeight={true}></ToggleButton>
+                <ToggleButton Title={ExportLabel}  ComponentToRender={Export()} ComponentHeight={15} CustomHeight={true}></ToggleButton> 
             </StatisticsBar>
         </ContentWrapper>
     )

@@ -6,6 +6,7 @@ type ToggleButtonProps = {
     Title: String,
     ComponentToRender: JSX.Element,
     ComponentHeight: number,
+    CustomHeight: boolean,
 }
 
 const ToggleButton = (props : ToggleButtonProps) => {
@@ -14,9 +15,13 @@ const ToggleButton = (props : ToggleButtonProps) => {
 
     useEffect(() => {
         if(props.ComponentHeight > 0){
+            if(props.CustomHeight){
+                setHeight(props.ComponentHeight+'vh');
+                return
+            }
             setHeight(props.ComponentHeight+'px');
         }
-      },[props.ComponentHeight]);
+      },[props.ComponentHeight, props.CustomHeight]);
 
     return(
          visible ?

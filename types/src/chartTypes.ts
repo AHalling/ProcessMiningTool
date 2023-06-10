@@ -4,6 +4,16 @@ export type ChartOptions = {
     chart: MainChartOptions,
     yAxis: AxisOptions,
     xAxis: AxisOptions,
+    legend:LegendOptions
+}
+
+export type ChartSize = {
+    width: number,
+    height: number,
+}
+
+type LegendOptions = {
+    position:string,
 }
 
 type AxisOptions = {
@@ -26,6 +36,7 @@ export const isFigure = (obj: any): obj is JSX.Element => {
 export type FigureInfo = {
     data: any,
     options: ChartOptions,
+    size: ChartSize,
     type: PlotTypes,
 }
 

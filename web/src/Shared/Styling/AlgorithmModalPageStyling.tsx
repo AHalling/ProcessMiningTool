@@ -35,7 +35,6 @@ export const ModalBody = styled.div`
     display: flex;
     justify-content: left;
     align-items: left;
-    font-size: 1.7rem;
     text-align: center;
     overflow-y: scroll;
 `

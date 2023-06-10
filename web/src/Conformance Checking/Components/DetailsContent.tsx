@@ -2,8 +2,7 @@ import { Result } from "types/build/conformanceCheckingTypes"
 import {ContentWrapper, ContentBox, FigureButton, ButtonsDiv} from "../Styling/DetailsContentStyling";
 import {StatisticNames} from "../Constants";
 import { AlignmentGroup, DynamicStatistics } from "types/src/conformanceCheckingTypes";
-import {ChartOptions} from "../../../../types/src/chartTypes";
-import {GetPlot} from "../Components/Charts";
+import {ChartOptions, ChartSize} from "../../../../types/src/chartTypes";
 
 type DetailsProps = {
     result: Result | undefined,
@@ -19,6 +18,13 @@ const DetailsContent = ({result, selectedGroup, figure} : DetailsProps) => {
     }
 
     const getHeatMap = () : void => {
+        var figureBox = document.getElementById("figureBox");
+
+        var size : ChartSize = {
+            height: figureBox?.offsetHeight ?? 200,
+            width: figureBox?.offsetWidth ?? 400,
+        }
+
         var options: ChartOptions = {
             chart: {
               title: "Scatter plot",
@@ -26,6 +32,9 @@ const DetailsContent = ({result, selectedGroup, figure} : DetailsProps) => {
             },
             xAxis: { title: "Hours Studied" },
             yAxis: { title: "Grade" },
+            legend:{
+                position: 'bottom'
+            }
           }
 
         var data =[
@@ -82,7 +91,7 @@ const DetailsContent = ({result, selectedGroup, figure} : DetailsProps) => {
             [9, 98],
           ];
 
-          window.electron.createFigure(data, options, "Scatter")
+          window.electron.createFigure(data, options, size, "Scatter")
     }
     return(
         <ContentWrapper>
@@ -119,7 +128,7 @@ const DetailsContent = ({result, selectedGroup, figure} : DetailsProps) => {
                 </FigureButton>
             </ButtonsDiv>
             </ContentBox>
-            <ContentBox>
+            <ContentBox id="figureBox">
                 {figure}
             </ContentBox>
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {defaultModelSkipCost, defaultLogSkipCost, defaultConsumeCost} from "../Constants";
 import {Options} from "../../../../types/src/conformanceCheckingTypes"
+import {OptionsWrapper, OptionsForm, OptionsLabel, OptionsInput, OptionLine, InputButton } from "../Styling/OptionsStyling";
 
 const OptionsContent = () => {
     const [options, setOptions] = useState<Options>({
@@ -51,26 +52,32 @@ const OptionsContent = () => {
     }
 
     return (
-        <div>
-            <form>
-                <label>
-                Consume Cost:
-                <input type="number" name="CC" value={options.ConsumeCost} onChange={event => handleChange(event.target.value, "CC")} />
-                </label>
-                <label>
-                Model Skip Cost:
-                <input type="number" name="MSC" value={options.ModelSkipCost} onChange={event => handleChange(event.target.value, "MSC")} />
-                </label>
-                <label>
-                Log Skip Cost:
-                <input type="number" name="LSC" value={options.LogSkipCost} onChange={event => handleChange(event.target.value, "LSC")} />
-                </label>
-            </form>
+        <OptionsWrapper>
+            <OptionsForm>
+                <OptionLine>
+                    <OptionsLabel>
+                    Consume Cost:
+                    </OptionsLabel>
+                    <OptionsInput type="number" name="CC" value={options.ConsumeCost} onChange={event => handleChange(event.target.value, "CC")} />
+                </OptionLine>
+                <OptionLine>
+                    <OptionsLabel>
+                    Model Skip Cost:
+                    </OptionsLabel>
+                    <OptionsInput type="number" name="MSC" value={options.ModelSkipCost} onChange={event => handleChange(event.target.value, "MSC")} />
+                </OptionLine>
+                <OptionLine>
+                    <OptionsLabel>
+                    Log Skip Cost:
+                    </OptionsLabel>
+                    <OptionsInput type="number" name="LSC" value={options.LogSkipCost} onChange={event => handleChange(event.target.value, "LSC")} />
+                </OptionLine>
+            </OptionsForm>
             <form onReset={(() => Reset())}>
-                <input type="reset" value="Reset"/>
-                <input type="button" value="Submit" onClick={(() => handleSubmit())}/>
+                <InputButton type="reset" value="Reset"/>
+                <InputButton type="button" value="Submit" onClick={(() => handleSubmit())}/>
             </form>
-        </div>
+        </OptionsWrapper>
 
     )
 

@@ -4,7 +4,7 @@ export const TopBar = styled.div`
     display: flex;
     flex-direction: row;
     width:100%;
-    height: 5.2vh;
+    height: 4.6vh;
 `
 
 export const TopBarBox = styled.div`
@@ -35,7 +35,7 @@ export const TopBarContentTextContainer = styled.div`
 `
 
     export const TopBarButton = styled.button `
-    height: 3.5vh;
+    height: 3vh;
     width: 7vw;
     margin-left: 5px;
     margin-right: 5px;

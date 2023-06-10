@@ -7,11 +7,9 @@ const useDetailsFigure = () => {
     
     useEffect(() => {
         window.electron.listenForFigure( (data: FigureInfo) => {
-            setFigure(GetPlot(data.data, data.options, data.type))
+            setFigure(GetPlot(data.data, data.options, data.size, data.type))
         })
     })
-            
-
     return fig
 }
 

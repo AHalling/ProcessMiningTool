@@ -5,7 +5,7 @@ import{ State} from "../../types/src/types";
 import { FileResult, isFileResult } from "types/src/fileTypes";
 import { AlignmentGroup } from "types/build/conformanceCheckingTypes";
 import { Options, Results } from "types/src/conformanceCheckingTypes";
-import { ChartOptions, PlotTypes } from "types/src/chartTypes";
+import { ChartOptions, ChartSize, PlotTypes } from "types/src/chartTypes";
 
 contextBridge.exposeInMainWorld(
     'electron', {
@@ -111,8 +111,8 @@ contextBridge.exposeInMainWorld(
       sumbitOptions: (options: Options) => {
         ipcRenderer.send('options', options)
       },
-      createFigure: (data: any, options: ChartOptions, type: PlotTypes) => {
-        ipcRenderer.send('figure', data, options, type)
+      createFigure: (data: any, options: ChartOptions, size: ChartSize, type: PlotTypes) => {
+        ipcRenderer.send('figure', data, options, size, type)
       },
     }
 )

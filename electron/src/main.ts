@@ -169,9 +169,9 @@ function createWindow() {
       globalMainWindow.webContents.send('sendOptions', options)
   })
 
-  ipcMain.on('figure', (event: unknown, data: unknown, options: unknown, type: unknown) => {
-    if(isFigure(data) && isFigure(options) && typeof type === "string")
-      globalMainWindow.webContents.send('sendFigure', {data, options, type})
+  ipcMain.on('figure', (event: unknown, data: unknown, options: unknown, size: unknown, type: unknown) => {
+    if(isFigure(data) && isFigure(options)&& isFigure(size) && typeof type === "string")
+      globalMainWindow.webContents.send('sendFigure', {data, options, size, type})
   })
   
   init();
