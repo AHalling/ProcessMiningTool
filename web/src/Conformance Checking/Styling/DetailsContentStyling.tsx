@@ -13,6 +13,12 @@ export const ContentBox = styled.div`
     display:flex;
     flex-direction: row;
 `
+
+export const FigureBox = styled.div`
+    width: 100%;
+    display:flex;
+    flex-direction: row;
+`
 export const StatisticRow = styled.div`
     width: 100%;
 
@@ -37,4 +43,6 @@ export const FigureButton = styled.button `
     cursor: pointer;
     border-radius: 8px;
     text-align:center;
+    font-size: 0.90vw;
+
 `
