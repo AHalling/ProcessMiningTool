@@ -54,7 +54,7 @@ const Layout = (props:LayoutProps) => {
                 <ToggleButton Title={props.state.result?.name ?? "No result"}  ComponentToRender={ResultList({Results:props.Results, state: props.state, setState:props.setState})} ComponentHeight={HeightDictionary[ResultsLabel]} CustomHeight={false}></ToggleButton> 
                 <ToggleButton Title={OptionsLabel} ComponentToRender={OptionsContent()} ComponentHeight={HeightDictionary[OptionsLabel]}CustomHeight={false}></ToggleButton>
                 <ToggleButton Title={StatisticsLabel} ComponentToRender={ResultsStatistics({Stats:currResult?.statistics})} ComponentHeight={HeightDictionary[StatisticsLabel]}CustomHeight={false}></ToggleButton> 
-                <ToggleButton Title={HeatmapLabel} ComponentToRender={ConformanceCheckingCharts()} ComponentHeight={HeightDictionary[HeatmapLabel]}CustomHeight={false}></ToggleButton>
+                <ToggleButton Title={HeatmapLabel} ComponentToRender={ConformanceCheckingCharts(currResult)} ComponentHeight={HeightDictionary[HeatmapLabel]}CustomHeight={false}></ToggleButton>
                 <ToggleButton Title={LegendsLabel} ComponentToRender={Legends()} ComponentHeight={HeightDictionary[HeatmapLabel]}CustomHeight={false}></ToggleButton>  
             </LeftBar>
             <MainContent>

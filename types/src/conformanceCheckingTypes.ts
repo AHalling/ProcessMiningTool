@@ -66,8 +66,13 @@ export interface GeneralStatistics{
     medianScore: number,
 }
 
+export interface MappingScore{
+    group: number |string,
+    scores: number,
+}
+
 export interface DynamicStatistics {
-    [key: string]: number | string,
+    [key: string]: number | string | string[]| Array<number>,
 }
 export type Statistics = GroupStatistics | GeneralStatistics | null;
 

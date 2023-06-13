@@ -40,4 +40,4 @@ export type FigureInfo = {
     type: PlotTypes,
 }
 
-export type PlotTypes = "Scatter" | "Heatmap"
+export type PlotTypes = "Scatter" | "Heatmap" | "Bar"

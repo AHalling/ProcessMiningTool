@@ -12,6 +12,7 @@ type AlignmentGroupProps = {
 }
 
 const AlignmentGrouping = (props: AlignmentGroupProps) => {
+    let i = 0;
     
     const handleGroupActivations = () => {
         var currentGroup = document.getElementById(props.group.id)
@@ -28,8 +29,9 @@ const AlignmentGrouping = (props: AlignmentGroupProps) => {
         // Emit electron event
         window.electron.AlignmentGroupActivation(props.group,  props.group.color)
     }
-    let i = 0;
+    
     const handleModalOpen = (type: String) =>{
+        handleGroupActivations();
         window.electron.openModal(type);
     }
 

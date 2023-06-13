@@ -2,7 +2,7 @@ import { Result } from "types/build/conformanceCheckingTypes"
 import {ContentWrapper, ContentBox, FigureButton, ButtonsDiv} from "../Styling/DetailsContentStyling";
 import {StatisticNames} from "../Constants";
 import { AlignmentGroup, DynamicStatistics } from "types/src/conformanceCheckingTypes";
-import {ChartOptions, ChartSize} from "../../../../types/src/chartTypes";
+import {getGroupModelSkipsFigure, getGroupLogSkipsFigure, getResultScoresFigure} from "./ChartsCreator";
 
 type DetailsProps = {
     result: Result | undefined,
@@ -11,88 +11,30 @@ type DetailsProps = {
 }
 
 const DetailsContent = ({result, selectedGroup, figure} : DetailsProps) => {
-
     var newStats : DynamicStatistics = {}
+    var hiddenStats : DynamicStatistics = {}
     if(result?.statistics && selectedGroup?.GroupStatistics){
-        Object.assign(newStats, result?.statistics, selectedGroup?.GroupStatistics);
-    }
-
-    const getHeatMap = () : void => {
-        var figureBox = document.getElementById("figureBox");
-
-        var size : ChartSize = {
-            height: figureBox?.offsetHeight ?? 200,
-            width: figureBox?.offsetWidth ?? 400,
-        }
-
-        var options: ChartOptions = {
-            chart: {
-              title: "Scatter plot",
-              subTitle: "based on hours studied",
-            },
-            xAxis: { title: "Hours Studied" },
-            yAxis: { title: "Grade" },
-            legend:{
-                position: 'bottom'
+        Object.keys(result?.statistics).forEach(stat => {
+            var type = typeof(result?.statistics[stat])
+            if (type === "number" || type === "string"){
+                newStats[stat] = result?.statistics[stat]
+            }else{
+                hiddenStats[stat] = result?.statistics[stat]
             }
-          }
+            
+        });
 
-        var data =[
-            ["Hours Studied", "Final"],
-            [0, 67],
-            [1, 88],
-            [2, 77],
-            [3, 93],
-            [4, 85],
-            [5, 91],
-            [6, 71],
-            [7, 78],
-            [8, 93],
-            [9, 80],
-            [10, 82],
-            [0, 75],
-            [5, 80],
-            [3, 90],
-            [1, 72],
-            [5, 75],
-            [6, 68],
-            [7, 98],
-            [3, 82],
-            [9, 94],
-            [2, 79],
-            [2, 95],
-            [2, 86],
-            [3, 67],
-            [4, 60],
-            [2, 80],
-            [6, 92],
-            [2, 81],
-            [8, 79],
-            [9, 83],
-            [3, 75],
-            [1, 80],
-            [3, 71],
-            [3, 89],
-            [4, 92],
-            [5, 85],
-            [6, 92],
-            [7, 78],
-            [6, 95],
-            [3, 81],
-            [0, 64],
-            [4, 85],
-            [2, 83],
-            [3, 96],
-            [4, 77],
-            [5, 89],
-            [4, 89],
-            [7, 84],
-            [4, 92],
-            [9, 98],
-          ];
-
-          window.electron.createFigure(data, options, size, "Scatter")
+        Object.keys(selectedGroup?.GroupStatistics).forEach(stat => {
+            var type = typeof(selectedGroup?.GroupStatistics[stat])
+            if (type === "number" || type === "string"){
+                newStats[stat] = selectedGroup?.GroupStatistics[stat]
+            }else{
+                hiddenStats[stat] = selectedGroup?.GroupStatistics[stat]
+            }
+            
+        });
     }
+
     return(
         <ContentWrapper>
             <ContentBox>
@@ -103,7 +45,7 @@ const DetailsContent = ({result, selectedGroup, figure} : DetailsProps) => {
                         <th style={{float:"right"}}>Value </th>
                     </tr>
                     {result !== undefined && Object.keys(newStats).map(key => {
-                        return(
+                        return(   
                             <tr key={key} style={{fontSize:"1rem", borderBottom:"1px dotted black"}} >
                                 <td style={{fontWeight:"bold", float:"left"}}>
                                     {StatisticNames[key]}
@@ -117,15 +59,21 @@ const DetailsContent = ({result, selectedGroup, figure} : DetailsProps) => {
             </table>
             <ButtonsDiv>
                 <h5 style={{marginTop:"5px", marginBottom:"5px"}}>Figures</h5>
-                <FigureButton onClick={(() => getHeatMap())}>
+                <FigureButton onClick={(() => getGroupModelSkipsFigure(hiddenStats))}>
+                    Group Model skips
+                </FigureButton>
+                <FigureButton onClick={(() => getGroupLogSkipsFigure(hiddenStats))}>
+                    Group Log skips
+                </FigureButton>
+                {/* <FigureButton onClick={(() => getHeatMap())}>
+                    Group Aligned
+                </FigureButton> */}
+                <FigureButton onClick={(() => getResultScoresFigure(hiddenStats))}>
+                    Result scores
+                </FigureButton>
+                {/* <FigureButton onClick={(() => getHeatMap(selectedGroup?.GroupStatistics, ""))}>
                     Heatmap
-                </FigureButton>
-                <FigureButton onClick={(() => getHeatMap())}>
-                    Plot
-                </FigureButton>
-                <FigureButton onClick={(() => getHeatMap())}>
-                    Model
-                </FigureButton>
+                </FigureButton> */}
             </ButtonsDiv>
             </ContentBox>
             <ContentBox id="figureBox">

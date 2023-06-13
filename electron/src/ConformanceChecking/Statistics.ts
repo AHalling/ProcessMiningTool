@@ -1,11 +1,22 @@
-import { AlignmentGroup, DynamicStatistics, Result } from "types/src/conformanceCheckingTypes";
+import { AlignmentGroup, DynamicStatistics, Result, MappingScore } from "types/src/conformanceCheckingTypes";
 
 export const ResultStatistics = (result: Result) : DynamicStatistics => {
     let scores : number[] = [];
+    let mappedScore : { [name: string]: number } = {};
+
+    let i = 1;
     // Compute score for each group.
     result.alignmentgroups.forEach(group => {
-        scores.push(computeScoreForGroup(group));
+        mappedScore[i] = computeScoreForGroup(group);
+        //scores.push(computeScoreForGroup(group));
+        i++;
     });
+    scores = Object.values(mappedScore);
+
+    // scores.forEach(score => {
+    //     mappedScore[i] = score
+    //     i++;
+    // });
 
     // Compute average score
     var average = scores.reduce( ( p, c ) => p + c, 0 ) / scores.length
@@ -29,6 +40,8 @@ export const ResultStatistics = (result: Result) : DynamicStatistics => {
         medianScore: median,
         maxScore: max,
         minScore: min,
+        scoreKeys: Object.keys(mappedScore),
+        scoreValues: Object.values(mappedScore),
     }
 }
 

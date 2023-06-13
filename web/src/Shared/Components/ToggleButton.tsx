@@ -39,7 +39,7 @@ const ToggleButton = (props : ToggleButtonProps) => {
                 </ComponentWrapper>
 
         </Wrapper> :
-        <Wrapper>
+        <Wrapper id="leftWrapper">
         <HeaderWrapper>
             <Title>{props.Title}</Title>
             <Button 

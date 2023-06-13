@@ -2,7 +2,7 @@ import { Alignment, Move } from "types/build/DCR-Alignment/types";
 import { DynamicStatistics } from "types/src/conformanceCheckingTypes";
 
 export const computeGroupStatistics = (group: Alignment) : DynamicStatistics  => {
-    var [logskips, modelskips, aligned,  topLog, TopModel] = computeSkips(group);
+    var [logskips, modelskips, aligned,  topLog, TopModel, totalModelSkips, TotalLogSkips] = computeSkips(group);
 
     const stats : DynamicStatistics = {
         LogSkips: logskips,
@@ -10,11 +10,15 @@ export const computeGroupStatistics = (group: Alignment) : DynamicStatistics  =>
         Alignments: aligned,
         TopLogSkip: topLog,
         TopModelSkip: TopModel,
+        totalModelSkipsKeys: Object.keys(totalModelSkips),
+        totalLogSkipsKeys: Object.keys(TotalLogSkips),
+        totalModelSkipsValues: Object.values(totalModelSkips),
+        totalLogSkipsValues: Object.values(TotalLogSkips),
     }
     return stats
 }
 
-const computeSkips = (group: Alignment) : [number, number, number,  string, string] => {
+const computeSkips = (group: Alignment) : [number, number, number,  string, string, { [name: string]: number; }, { [name: string]: number; }] => {
     let logskips = 0;
     let modelskips = 0;
     let aligned = 0;
@@ -41,7 +45,7 @@ const computeSkips = (group: Alignment) : [number, number, number,  string, stri
             aligned++;
     });
 
-    return [logskips, modelskips, aligned, getMax(ModelSkips) , getMax(LogSkips)]
+    return [logskips, modelskips, aligned, getMax(ModelSkips) , getMax(LogSkips), ModelSkips, LogSkips]
 }
 
 const getMax = (obj: { [name: string]: number }) : string => {

@@ -17,6 +17,12 @@ const ResultsStatistics = (props: StatisticsProps) => {
                         <th>Value </th>
                     </tr>
                     {(props.Stats !== undefined || props.Stats !== null) && Object.keys(props.Stats).map(key => {
+                        var type =props.Stats ? typeof(props.Stats[key]) : ""
+
+                        if (type !== "number" && type !== "string"){
+                            return(null)
+                        }
+
                         return(
                             <StatisticsTableRow key={key}>
                                 <StatisticsTableDataKey>
