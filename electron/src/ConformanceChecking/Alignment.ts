@@ -13,8 +13,6 @@ import { Guid } from "guid-typescript";
 import { ResultStatistics } from "./Statistics";
 
 export const computeAlignment = async (Log: FileResult, Model: FileResult, Options: Options) : Promise<Result> => {
-  console.log("Options in computeAlignment")
-  console.log(Options)
     // Get traces
     const traces : Traces = parseLog(Log.path).traces;
 

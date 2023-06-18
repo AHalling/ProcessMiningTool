@@ -7,6 +7,10 @@ const useSelectedFileState = () => {
     
     useEffect(() => {
         window.electron.listenToSelectFile( (fileResult: FileResult) => {
+            // Discard result do to null selection
+            if (fileResult.path === "")
+                return;
+
             if(fileResult.Type === "Log"){
                 setLog(fileResult)
                 window.electron.clearSelectFile();

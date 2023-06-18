@@ -2,6 +2,7 @@ import { BrowserWindow } from 'electron';
 import { APP_MODEL_PATH, APP_LOG_PATH } from './constants';
 import * as fs from 'fs'; // Load the File System to execute our common tasks (CRUD)
 import {FileResult, FileType} from "../../types/src/fileTypes";
+import { FileFilter } from 'electron/main';
 
 function saveFile(combinedPath: string, content: any): Promise<boolean> {
     return new Promise( (resolve, reject) => {
@@ -53,15 +54,12 @@ function SelectFile(window: BrowserWindow, type: FileType) : FileResult {
         properties: ['openFile', 'showHiddenFiles'],
         defaultPath: defaultPath,
         title: "Select Model",
-        filters: [
-            { name: 'json', extensions: ['json'] },
-            { name: 'xes', extensions: ['xes'] }
-        ]
+        filters: fileTypesToShow(type)
   }
 
     var result = dialog.showOpenDialogSync(window, options);
-
-    if(result == undefined){
+    
+    if(result == undefined || null){
         console.log("Window was closed. No file was chosen.")
     }else{
         if(result.length > 0){
@@ -88,6 +86,20 @@ function ChoosePath(type: string): string {
     }
 
     return ""
+}
+
+function fileTypesToShow(type: string) : FileFilter[] {
+    if (type === "Log"){
+        return [
+            { name: 'xes', extensions: ['xes'] },
+            { name: 'json', extensions: ['json'] }
+        ]
+    }else{
+        return [
+            { name: 'json', extensions: ['json'] },
+            { name: 'xes', extensions: ['xes'] }
+        ]
+    }
 }
 
 

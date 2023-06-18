@@ -17,6 +17,10 @@ const useResultComputation = (Log: FileResult | undefined, Model: FileResult | u
 
     useEffect(() => {
         let shouldCompute = false;
+        
+        if(Log === undefined || Model === undefined){
+            return;
+        }
 
         if(Log && Model){
             shouldCompute = true;
@@ -30,7 +34,7 @@ const useResultComputation = (Log: FileResult | undefined, Model: FileResult | u
                 window.electron.clearAlignmentResult();
             })
             window.electron.computeAlignment(Log, Model, options);
-
+            shouldCompute = false;
         }
 
         window.electron.listenToSetResult((result: Result) => {

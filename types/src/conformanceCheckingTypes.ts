@@ -23,8 +23,8 @@ export interface Result {
 }
 
 export interface AlignmentGroup {
-    Traces: Traces,
-    Alignment: Alignment,
+    Traces: Traces, // Alignments
+    Alignment: Alignment, // common alignment
     GroupStatistics: DynamicStatistics,
     color: string,
     id: string,
