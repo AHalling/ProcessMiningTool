@@ -7,17 +7,17 @@ import {loadFile} from "../fileManipulation"
 import {isDCRGraph} from "../../../types/src/miningTypes";
 import { isUiDCRGraph } from "../../../types/src/types";
 import {formatModel, formatDCRGraphToDCRGraphPP} from "../Models/modelHelpers"
-import {computeGroupStatistics} from "./GroupStatistics"
 import { GroupColors } from "./Constants";
-import { Guid } from "guid-typescript";
 import { ResultStatistics } from "./Statistics";
+import { groupAlignment } from "./AlignmentGroup";
+import { groupTraces } from "./TraceGroup";
 
 export const computeAlignment = async (Log: FileResult, Model: FileResult, Options: Options) : Promise<Result> => {
     // Get traces
     const traces : Traces = parseLog(Log.path).traces;
-
+    var traceGroups = groupTraces(traces)
     var logAlignments : LogAlignments = {
-        alignments : []
+        alignments : [],
     };
     
     const result : Result = {
@@ -33,13 +33,16 @@ export const computeAlignment = async (Log: FileResult, Model: FileResult, Optio
     // Get GraphPP type
     var model : DCRGraphPP | undefined = await GetGraphFromModel(Model, Log.name)
 
-    Object.keys(traces).forEach(traceKey => {
+    traceGroups.forEach(trace => {
       if(isDCRGraphPP(model))
-        logAlignments.alignments.push(align(traces[traceKey], model, Options))
+        logAlignments.alignments.push(align(trace.Trace, model, Options,trace.keys ))
       });
 
-      result.alignmentgroups = OrganizeAlignments(logAlignments, traces)
-      result.statistics = ResultStatistics(result)
+    result.alignmentgroups = OrganizeAlignments(logAlignments)
+    console.log(result.alignmentgroups[0].GroupAlignemnts[0])
+    console.log(result.alignmentgroups[1].GroupAlignemnts[0])
+    console.log(result.alignmentgroups[2].GroupAlignemnts[0])
+    result.statistics = ResultStatistics(result)
     return result
 }
 
@@ -64,22 +67,14 @@ const GetGraphFromModel = async (Model: FileResult, LogName: string) : Promise<D
 
 }
 
-const OrganizeAlignments = (logAlignments : LogAlignments, traces: Traces) : Array<AlignmentGroup> => {
-  var groups : Array<AlignmentGroup> = []
+const OrganizeAlignments = (logAlignments : LogAlignments) : Array<AlignmentGroup> => {
+  var groups : Array<AlignmentGroup> = groupAlignment(logAlignments);
   var i : number = 1;
 
-  logAlignments.alignments.forEach((alignment) => {
-    groups.push({
-      Traces: traces,
-      Alignment: alignment,
-      GroupStatistics: computeGroupStatistics(alignment),
-      color: GroupColors[i % GroupColors.length],
-      id: Guid.create().toString(),
-      otherGroupsIDInResult: []
-    })
+  groups.forEach((alignment) => {
+    alignment.color = GroupColors[i % GroupColors.length]
     i++;
   })
-
   return getOtherGroupsInResult(groups)
 }
 

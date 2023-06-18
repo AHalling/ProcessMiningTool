@@ -56,7 +56,7 @@ const AlignmentGrouping = (props: AlignmentGroupProps) => {
                     <ContentButton onClick={() => handleGroupActivations()}>
                         <GroupButtonContent>
                             <div style={{display:"flex", flexDirection:"row", position:"relative", marginTop:"2vh"}}>
-                                {props.group.Alignment.trace.map(trace => {
+                                {props.group.Alignment.map(trace => {
                                     i = i + 2;
                                     return(
                                         <ActivityIcon backgroundColor={colors[trace[1]]} left={i.toString()} activityName={trace[0]} key={i}/>

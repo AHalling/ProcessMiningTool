@@ -1,7 +1,6 @@
-import {Alignment, Traces, DCRGraphPP} from "../../DCR-Alignment/types";
+import {Alignment, Traces, DCRGraphPP, AlignmentTrace} from "../../DCR-Alignment/types";
 import {isEventMap, isMarking, isEventSet, EventMap} from "./miningTypes"
-import { Guid } from "guid-typescript";
-
+import {Trace} from "../../DCR-Alignment/types"
 export interface Results {
     results: Array<Result>,
 }
@@ -23,12 +22,13 @@ export interface Result {
 }
 
 export interface AlignmentGroup {
-    Traces: Traces, // Alignments
-    Alignment: Alignment, // common alignment
+    GroupAlignemnts: Array<Alignment>, // Alignments
+    Alignment: AlignmentTrace, // common alignment
     GroupStatistics: DynamicStatistics,
     color: string,
     id: string,
     otherGroupsIDInResult: Array<string>,
+    cost: number,
 }
 
 export const isResult = (obj: any) => {
@@ -45,11 +45,6 @@ export interface EventResult{
 }
 
 export type GroupResult = Result | null;
-
-export interface Trace {
-    activities: string,
-    relations: string,
-}
 
 export interface GroupStatistics{
     numberOfTraces: number,
@@ -103,3 +98,7 @@ export const isOptions = (obj: any): obj is Options => {
     return true;
 }
 
+export type TraceGroup = {
+    keys: Array<string>,
+    Trace: Trace
+} 

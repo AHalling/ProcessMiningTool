@@ -18,7 +18,7 @@ const TraceGroups = (props: TraceGroupProps) => {
     return(
         <TraceGroupsContainer>
             {noContent && <p> No Tracegroups for current content</p>}
-            {props.group?.Traces && Object.keys(props.group?.Traces).map((key) => {
+            {/* {props.group?.Traces && Object.keys(props.group?.Traces).map((key) => {
 
                 return(
                     <TraceGroup key={(i*i).toString()}>
@@ -30,7 +30,7 @@ const TraceGroups = (props: TraceGroupProps) => {
             })}
                     </TraceGroup>
                 )
-            })}
+            })} */}
         </TraceGroupsContainer>
     )
 }

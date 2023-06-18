@@ -49,7 +49,7 @@ const computeScoreForGroup = (group : AlignmentGroup) : number =>{
     var correct = 0
     var failure = 0
     var length = 0;
-    group.Alignment.trace.forEach(trace => {
+    group.Alignment.forEach(trace => {
         length = length + 1;
         if(trace[1] !== "consume")
         {

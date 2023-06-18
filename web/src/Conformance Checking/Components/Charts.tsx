@@ -18,7 +18,7 @@ const ConformanceCheckingCharts= (result: Result | undefined) : JSX.Element => {
     let aligned = 0;
 
     result.alignmentgroups.forEach(group => {
-        group.Alignment.trace.forEach(activity => {
+        group.Alignment.forEach(activity => {
             if(activity[1] === "consume")
                 aligned++;
 
