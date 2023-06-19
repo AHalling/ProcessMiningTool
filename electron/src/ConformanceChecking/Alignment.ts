@@ -1,13 +1,13 @@
 import { FileResult } from "types/src/fileTypes";
 import align from "../../../DCR-Alignment/src/align";
 import {parseLog} from "../../../DisCoveR-TS-main/fsInteraction";
-import {Traces, DCRGraphPP} from "../../../DCR-Alignment/types"
+import {Traces, DCRGraphPP, AlignmentTrace} from "../../../DCR-Alignment/types"
 import {Result, LogAlignments, isDCRGraphPP, AlignmentGroup, Options} from "../../../types/src/conformanceCheckingTypes";
 import {loadFile} from "../fileManipulation"
 import {isDCRGraph} from "../../../types/src/miningTypes";
 import { isUiDCRGraph } from "../../../types/src/types";
 import {formatModel, formatDCRGraphToDCRGraphPP} from "../Models/modelHelpers"
-import { GroupColors } from "./Constants";
+import { GroupColors, ShortenLimit } from "./Constants";
 import { ResultStatistics } from "./Statistics";
 import { groupAlignment } from "./AlignmentGroup";
 import { groupTraces } from "./TraceGroup";
@@ -39,9 +39,6 @@ export const computeAlignment = async (Log: FileResult, Model: FileResult, Optio
       });
 
     result.alignmentgroups = OrganizeAlignments(logAlignments)
-    console.log(result.alignmentgroups[0].GroupAlignemnts[0])
-    console.log(result.alignmentgroups[1].GroupAlignemnts[0])
-    console.log(result.alignmentgroups[2].GroupAlignemnts[0])
     result.statistics = ResultStatistics(result)
     return result
 }
@@ -75,6 +72,7 @@ const OrganizeAlignments = (logAlignments : LogAlignments) : Array<AlignmentGrou
     alignment.color = GroupColors[i % GroupColors.length]
     i++;
   })
+  groups = ShortenSynchronizedMoves(groups);
   return getOtherGroupsInResult(groups)
 }
 
@@ -82,5 +80,49 @@ const getOtherGroupsInResult = (groups: Array<AlignmentGroup>) : Array<Alignment
   groups.forEach(group => {
     group.otherGroupsIDInResult = groups.filter(function(g) { return g.id !== group.id; }).map(g => g.id);
   });
+
   return groups;
+}
+
+const ShortenSynchronizedMoves = (groups: Array<AlignmentGroup>) :Array<AlignmentGroup> =>{
+  groups.forEach(group => {
+    group.GroupAlignemnts.forEach(alignment => {
+        if (alignment.trace.length >= ShortenLimit){
+          alignment.trace = shortenTrace(alignment.trace);
+        } 
+    });
+    
+  });
+  return groups;
+}
+
+const shortenTrace = (trace: AlignmentTrace) : AlignmentTrace => {
+  var pointer = 0;
+  var sync : boolean = false;
+
+  for (let i = trace.length-1; i >= 0; i--) {
+      if(trace[i][1] === "consume" && !sync){
+        pointer = i;
+        sync = true;
+    }else{
+        if (trace[i][1] === "model-skip" || trace[i][1] === "trace-skip"){
+            sync = false;
+        }
+        if((pointer - i) > 5 && !sync){
+          // We've seen 5 sync moves in a row
+          // Replace from i up to pointer
+          trace.splice(i + 1, ((pointer-1)-i), ["", "skip"])
+          // Move pointer forward
+          pointer = i;
+        }
+    }
+    // We hit the end
+    if (i === 0 && sync){
+      if((pointer - i) > 5){
+        // replace from i up to pointer-i
+        trace.splice(i + 1, ((pointer-1)-i), ["", "skip"])
+      }
+    }
+  }
+  return trace;
 }

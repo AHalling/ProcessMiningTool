@@ -1,19 +1,19 @@
-import {ModalBackground, ModalContainer, ModalHeader, ModalBody, ModalFooter, 
-    ModalButton, ModalXButton, ModalHeaderH2} from '../../Shared/Styling/AlgorithmModalPageStyling';
+import {ModalBackground, ModalHeader, ModalBody, ModalFooter, 
+    ModalButton, ModalXButton, ModalHeaderH2, SmallModalContainer} from '../../Shared/Styling/AlgorithmModalPageStyling';
 import { Modals } from "types/src/conformanceCheckingTypes";
 
-type ModalProps = {
+type SmallModalProps = {
     setModalState: Function,
     modalType: Modals,
     content: JSX.Element,
     title: string,
 }
 
-const Modal = ({setModalState, content, title, modalType}: ModalProps) => {
+const SmallModal = ({setModalState, content, title, modalType}: SmallModalProps) => {
 
     return (
         <ModalBackground>
-            <ModalContainer>
+            <SmallModalContainer>
                     <ModalHeader>
                     <ModalXButton onClick={() => setModalState(modalType, false)}> X</ModalXButton>
                         <ModalHeaderH2> {title}</ModalHeaderH2>
@@ -26,10 +26,10 @@ const Modal = ({setModalState, content, title, modalType}: ModalProps) => {
                             <ModalButton  onClick={() => setModalState(modalType, false)}>Close</ModalButton>
                         </div>
                     </ModalFooter>
-            </ModalContainer>
+            </SmallModalContainer>
         </ModalBackground>
 
     );
 }
 
-export default Modal;
+export default SmallModal;

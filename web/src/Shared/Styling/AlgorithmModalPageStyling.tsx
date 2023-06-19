@@ -107,3 +107,17 @@ export const ModalLabel = styled.label`
 export const ModalInput = styled.input`
     width: 25vw;
 `
+
+export const SmallModalContainer = styled.div`
+    position:absolute;
+    top: -5vh;
+    left: 10vw;
+    width: 25%;
+    height: 30%;
+    border-radius: 12px;
+    background-color: white;
+    box-shadows: rgba(0,0,0,0.35) 0px 5px 15px;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 25px 0px 25px;
+`

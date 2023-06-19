@@ -5,44 +5,28 @@ import { Guid } from "guid-typescript";
 import { Alignment } from "../../../DCR-Alignment/types";
 
 export const groupAlignment = (Lalignments: LogAlignments) : Array<AlignmentGroup> => {
-    //[number: Array<Alignment>]
-        var alignmentsGroupedByCost = Lalignments.alignments.reduce(function (r : {[key: number] : Array<Alignment>}, alignment) {
-          r[alignment.cost] = r[alignment.cost] || [];
-          r[alignment.cost].push(alignment);
-          return r;
-        }, Object.create(null));
-    
         var res : Array<AlignmentGroup> = []
-        Object.keys(alignmentsGroupedByCost).forEach(key => {
-          var keyAsNumber: number = +key;
-          if (keyAsNumber === 0){
-            // Handle synchronious moves
-            res = res.concat(handleCostGroup(alignmentsGroupedByCost[keyAsNumber], keyAsNumber));
-          }
-          var result = handleCostGroup(filterGroupMoves(alignmentsGroupedByCost[keyAsNumber]), keyAsNumber)
-          res = res.concat(result);
+        Lalignments.alignments.forEach(alignment => {
+            var test = handleCostGroup(alignment, alignment.cost, res)
+            if (test !== null)
+                res.push(test);
       });
       return res;
     }
     
-    const handleCostGroup = (filteredGroup : Array<Alignment>, cost: number) : Array<AlignmentGroup> => {
-      if (filteredGroup.length === 0)
-        return []
-    
-      if (filteredGroup.length == 1)
-        return [createAlignmentGroup(filteredGroup[0], cost)]
-    
-        var alignmentGroups : Array<AlignmentGroup> = []
-    
-        filteredGroup.forEach(group => {
-          var currgroup = groupContains(group.trace, alignmentGroups)
-          if (currgroup !== null){
-            currgroup.GroupAlignemnts.push(group);
-          }else{
-            alignmentGroups.push(createAlignmentGroup(group, cost))
-          }
-      });
-      return alignmentGroups
+    const handleCostGroup = (alignment : Alignment, cost: number, currGroups: Array<AlignmentGroup>) : AlignmentGroup | null => {
+        var filteredAlignment = filterGroupMoves(alignment);
+
+        if (filteredAlignment.trace.length === 0)
+            return createAlignmentGroup(alignment, alignment.trace, cost)
+
+        var group = groupContains(filteredAlignment.trace, currGroups)
+        if (group !== null){
+            group.GroupAlignemnts.push(alignment);
+        }else{
+            return createAlignmentGroup(filteredAlignment, alignment.trace, cost);
+        }
+      return null
     }
     
     const groupContains = (trace : AlignmentTrace, currGroups : Array<AlignmentGroup>) : AlignmentGroup |null => {
@@ -55,9 +39,7 @@ export const groupAlignment = (Lalignments: LogAlignments) : Array<AlignmentGrou
                 res = null
                 return
               }
-              
             }
-    
             res = group
         }
       });
@@ -65,11 +47,16 @@ export const groupAlignment = (Lalignments: LogAlignments) : Array<AlignmentGrou
       return res;
     }
     
-    const createAlignmentGroup = (alignment: Alignment, cost: number) : AlignmentGroup => {
+    const createAlignmentGroup = (alignment: Alignment, originalAlignmentTrace: AlignmentTrace, cost: number) : AlignmentGroup => {
+        var temp : Alignment = {
+            trace: originalAlignmentTrace,
+            cost: alignment.cost,
+            keys: alignment.keys
+        }
       return (
         {
-          GroupAlignemnts: [alignment],
-          Alignment: alignment.trace,
+          GroupAlignemnts: [temp],
+          Alignment: (alignment.trace.length > 0) ? alignment.trace : originalAlignmentTrace,
           GroupStatistics: computeGroupStatistics(alignment.trace),
           color:"",
           id: Guid.create().toString(),
@@ -78,12 +65,13 @@ export const groupAlignment = (Lalignments: LogAlignments) : Array<AlignmentGrou
         }
       )
     }
-    const filterGroupMoves = (group : Array<Alignment>) : Array<Alignment> => {
-      let filteredGroup : Array<Alignment> = [];
-      group.forEach(alignment => {
-        alignment.trace = alignment.trace.filter(a => a[1] !== "consume")
-        filteredGroup.push(alignment);
-      });
-    
-      return filteredGroup.filter(t => t.trace.length > 0)
+    const filterGroupMoves = (group : Alignment) : Alignment => {
+        return (
+            {
+                trace: group.trace.filter(a => a[1] !== "consume").filter(t => t.length > 0),
+                cost: group.cost,
+                keys: group.keys
+
+            }
+        );
     }

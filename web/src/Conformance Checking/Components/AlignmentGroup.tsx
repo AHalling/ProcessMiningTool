@@ -59,7 +59,7 @@ const AlignmentGrouping = (props: AlignmentGroupProps) => {
                                 {props.group.Alignment.map(trace => {
                                     i = i + 2;
                                     return(
-                                        <ActivityIcon backgroundColor={colors[trace[1]]} left={i.toString()} activityName={trace[0]} key={i}/>
+                                        <ActivityIcon backgroundColor={colors[trace[1]]} left={i.toString()} top="0" activityName={trace[0]} key={i}/>
                                     )
                                 })}
                             </div>

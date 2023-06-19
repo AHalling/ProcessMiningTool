@@ -7,10 +7,9 @@ const ConformanceCheckingCharts= (result: Result | undefined) : JSX.Element => {
     if(result === undefined)
         return(<div> Waiting for result </div>)
 
-    var figureBox = document.getElementById("leftWrapper");
     var size : ChartSize = {
-        height: figureBox?.offsetHeight ?? 200,
-        width: figureBox?.offsetWidth ?? 400,
+        height: 10,
+        width: 100
     }
 
     let logMove = 0;
@@ -42,8 +41,8 @@ const ConformanceCheckingCharts= (result: Result | undefined) : JSX.Element => {
         <Chart
             chartType="PieChart"
             data={data}
-            width={size.width}
-            height={size.height}
+            width={size.width +"%"}
+            height={size.height+"vh"}
             legendToggle
             />
     )

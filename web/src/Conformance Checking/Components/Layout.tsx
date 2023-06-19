@@ -46,10 +46,10 @@ const Layout = (props:LayoutProps) => {
 
     return(
         <ContentWrapper>
-            {openDetailsModal && <Modal setModalState={setModalState} modalType="Details" content={DetailsContent({result: currResult, selectedGroup: SelectedGroup, figure: currDetailsFig})} title="Details" continueFunction={ null} data={null} ></Modal>}
-            {openGroupsModal && <Modal setModalState={setModalState} modalType="TraceGroups" content={TraceGroups({group:SelectedGroup})} title="Trace Groups" continueFunction={ null} data={null} ></Modal>}
-            {openExportModal && <Modal setModalState={setModalState} modalType="Export" content={ExportContent()} title="Export" continueFunction={ null} data={props.Results} ></Modal>}
-            {openExportFigModal && <Modal setModalState={setModalState} modalType="ExportFig" content={ExportFigureContent()} title="Export Figure" continueFunction={ null} data={null} ></Modal>}
+            {openDetailsModal && <Modal setModalState={setModalState} modalType="Details" content={DetailsContent({result: currResult, selectedGroup: SelectedGroup, figure: currDetailsFig})} title="Details"></Modal>}
+            {openGroupsModal && <Modal setModalState={setModalState} modalType="TraceGroups" content={TraceGroups({group:SelectedGroup, setState: setModalState})} title="Trace Groups" ></Modal>}
+            {openExportModal && <Modal setModalState={setModalState} modalType="Export" content={ExportContent()} title="Export" ></Modal>}
+            {openExportFigModal && <Modal setModalState={setModalState} modalType="ExportFig" content={ExportFigureContent()} title="Export Figure"  ></Modal>}
             <LeftBar ref={parentRef}>
                 <ToggleButton Title={props.state.result?.name ?? "No result"}  ComponentToRender={ResultList({Results:props.Results, state: props.state, setState:props.setState})} ComponentHeight={HeightDictionary[ResultsLabel]} CustomHeight={false}></ToggleButton> 
                 <ToggleButton Title={OptionsLabel} ComponentToRender={OptionsContent()} ComponentHeight={HeightDictionary[OptionsLabel]}CustomHeight={false}></ToggleButton>
