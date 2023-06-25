@@ -7,18 +7,21 @@ import { Alignment } from "../../../DCR-Alignment/types";
 export const groupAlignment = (Lalignments: LogAlignments) : Array<AlignmentGroup> => {
         var res : Array<AlignmentGroup> = []
         Lalignments.alignments.forEach(alignment => {
-            var test = handleCostGroup(alignment, alignment.cost, res)
+
+            var test = groupAlignments(alignment, alignment.cost, res)
+
             if (test !== null)
                 res.push(test);
       });
       return res;
     }
     
-    const handleCostGroup = (alignment : Alignment, cost: number, currGroups: Array<AlignmentGroup>) : AlignmentGroup | null => {
+    const groupAlignments = (alignment : Alignment, cost: number, currGroups: Array<AlignmentGroup>) : AlignmentGroup | null => {
         var filteredAlignment = filterGroupMoves(alignment);
 
-        if (filteredAlignment.trace.length === 0)
-            return createAlignmentGroup(alignment, alignment.trace, cost)
+        if (filteredAlignment.trace.length === 0){
+          return createAlignmentGroup(filteredAlignment, alignment.trace, cost);
+        }
 
         var group = groupContains(filteredAlignment.trace, currGroups)
         if (group !== null){
@@ -53,10 +56,11 @@ export const groupAlignment = (Lalignments: LogAlignments) : Array<AlignmentGrou
             cost: alignment.cost,
             keys: alignment.keys
         }
+
       return (
         {
           GroupAlignemnts: [temp],
-          Alignment: (alignment.trace.length > 0) ? alignment.trace : originalAlignmentTrace,
+          Alignment: (alignment.trace.length > 0) ? alignment.trace : [...originalAlignmentTrace],
           GroupStatistics: computeGroupStatistics(alignment.trace),
           color:"",
           id: Guid.create().toString(),

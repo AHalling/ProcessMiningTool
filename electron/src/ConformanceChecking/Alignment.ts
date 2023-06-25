@@ -72,6 +72,7 @@ const OrganizeAlignments = (logAlignments : LogAlignments) : Array<AlignmentGrou
     alignment.color = GroupColors[i % GroupColors.length]
     i++;
   })
+
   groups = ShortenSynchronizedMoves(groups);
   return getOtherGroupsInResult(groups)
 }
@@ -86,12 +87,10 @@ const getOtherGroupsInResult = (groups: Array<AlignmentGroup>) : Array<Alignment
 
 const ShortenSynchronizedMoves = (groups: Array<AlignmentGroup>) :Array<AlignmentGroup> =>{
   groups.forEach(group => {
-    group.GroupAlignemnts.forEach(alignment => {
-        if (alignment.trace.length >= ShortenLimit){
-          alignment.trace = shortenTrace(alignment.trace);
+        console.log(group.cost)
+        if (group.Alignment.length >= ShortenLimit){
+          group.Alignment = shortenTrace(group.Alignment);
         } 
-    });
-    
   });
   return groups;
 }

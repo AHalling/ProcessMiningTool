@@ -3,6 +3,7 @@ import AlignmentGroupArrow from "./AlignmentGroupArrow";
 import ActivityIcon from "./ActivityIcon";
 import {  colors } from "../Constants";
 import {LeftSideDiv, ButtonWrapper, RepresentationWrapper, ArrowWrapper, AlignmentGroupWrapper, ContentWrapper, GroupTitle, GroupButton, ContentButton, GroupButtonContent} from "../Styling/MainContentStyling";
+import Dots from "./DotsIcon";
 
 type AlignmentGroupProps = {
     amountOfGroups: number,
@@ -58,6 +59,10 @@ const AlignmentGrouping = (props: AlignmentGroupProps) => {
                             <div style={{display:"flex", flexDirection:"row", position:"relative", marginTop:"2vh"}}>
                                 {props.group.Alignment.map(trace => {
                                     i = i + 2;
+                                    if (trace[1] === "skip"){
+                                        return(<Dots i={i} left={(i-0.4).toString()} top="25" key={i}/>)
+                                    }
+
                                     return(
                                         <ActivityIcon backgroundColor={colors[trace[1]]} left={i.toString()} top="0" activityName={trace[0]} key={i}/>
                                     )

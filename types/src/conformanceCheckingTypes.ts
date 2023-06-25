@@ -22,8 +22,8 @@ export interface Result {
 }
 
 export interface AlignmentGroup {
-    GroupAlignemnts: Array<Alignment>, // Alignments
-    Alignment: AlignmentTrace, // common alignment
+    GroupAlignemnts: Array<Alignment>, // full Alignments
+    Alignment: AlignmentTrace, // the common group alignment
     GroupStatistics: DynamicStatistics,
     color: string,
     id: string,

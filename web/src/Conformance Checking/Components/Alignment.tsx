@@ -4,7 +4,6 @@ import SmallModal from "../../Shared/Components/SmallModal";
 import { Actionable, AlignmentWrapper, Container } from "../Styling/AlignmentStyling";
 import { GroupButton } from "../Styling/MainContentStyling";
 import ActivityIcon from "./ActivityIcon";
-import Dots from "./DotsIcon";
 import { useState } from "react";
 import TraceIds from "./TraceIds";
 
@@ -15,12 +14,15 @@ type AlignmentProps = {
 
 const AlignmentBlock = (props : AlignmentProps) => {
     const [openModal, setOpenModal] = useState<boolean>()
+
     const ShiftLeft = (i: number) : string => {
         return (i*2.05).toString();
     }
+
     const handleTraceKeysClick = (open:boolean) => {
         setOpenModal(open)
     }
+
     var i = 0;
     return(
         <Container>
@@ -35,9 +37,7 @@ const AlignmentBlock = (props : AlignmentProps) => {
                         {props.alignment && props.alignment.trace.map((activity) => {
                             i++;
                             if (activity[1] === "skip"){
-                                return (
-                                    <Dots/>
-                                )
+                                return(null)
                             }
 
                             return(

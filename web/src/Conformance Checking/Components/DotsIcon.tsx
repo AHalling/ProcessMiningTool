@@ -1,20 +1,18 @@
+import { Icon } from "../Styling/ActivityIconStyling";
+type DotsProps= {
+  left: string,
+  top: string,
+  i: number,
+}
 
-
-const Dots = () => {
+const Dots = (props: DotsProps) => {
   // TODO: Fix this mess
     return(
-        <div style={{left:"4vw", position:"absolute", top:"4vh"}}>
-            {(() => {
-            let td = [];
-            for (let i = 1; i <= 2; i++) {
-              td.push(                    
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="28" fill="currentColor" className="bi bi-dot" viewBox="0 0 12 16" key={i}>
-                <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-                </svg>);
-            }
-            return td;
-          })()}
-        </div>
+        <Icon left={props.left} top={props.top} key={(props.i*2,75)}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 14 16">
+          <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+        </svg>
+        </Icon>
 
     )
 }
