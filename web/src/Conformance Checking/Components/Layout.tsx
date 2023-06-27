@@ -51,7 +51,7 @@ const Layout = (props:LayoutProps) => {
             {openExportModal && <Modal setModalState={setModalState} modalType="Export" content={ExportContent()} title="Export" ></Modal>}
             {openExportFigModal && <Modal setModalState={setModalState} modalType="ExportFig" content={ExportFigureContent()} title="Export Figure"  ></Modal>}
             <LeftBar ref={parentRef}>
-                <ToggleButton Title={props.state.result?.name ?? "No result"}  ComponentToRender={ResultList({Results:props.Results, state: props.state, setState:props.setState})} ComponentHeight={HeightDictionary[ResultsLabel]} CustomHeight={false}></ToggleButton> 
+                <ToggleButton Title={currResult?.name ?? "No result"}  ComponentToRender={ResultList({Results:props.Results, state: props.state, setState:props.setState})} ComponentHeight={HeightDictionary[ResultsLabel]} CustomHeight={false}></ToggleButton> 
                 <ToggleButton Title={OptionsLabel} ComponentToRender={OptionsContent()} ComponentHeight={HeightDictionary[OptionsLabel]}CustomHeight={false}></ToggleButton>
                 <ToggleButton Title={StatisticsLabel} ComponentToRender={ResultsStatistics({Stats:currResult?.statistics})} ComponentHeight={HeightDictionary[StatisticsLabel]}CustomHeight={false}></ToggleButton> 
                 <ToggleButton Title={HeatmapLabel} ComponentToRender={ConformanceCheckingCharts(currResult)} ComponentHeight={HeightDictionary[HeatmapLabel]}CustomHeight={false}></ToggleButton>
@@ -59,7 +59,7 @@ const Layout = (props:LayoutProps) => {
             </LeftBar>
             <MainContent>
                 <MainContentWrapper>
-                    <TopbarContent LogName={Log?.name ?? "Choose Log"} ModelName={Model?.name ?? "Choose Model"} resultName={props.state.result == null ? "" : props.state.result.name}/>
+                    <TopbarContent LogName={Log?.name ?? "Choose Log"} ModelName={Model?.name ?? "Choose Model"} resultName={currResult?.name ?? ""}/>
                     <Groups>
                         {currResult && <AlignmentGroups Result={currResult} SetModalOpen={setModalState} modalType="Details" />}
                     </Groups>

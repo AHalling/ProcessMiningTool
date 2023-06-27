@@ -6,13 +6,17 @@ import { Alignment } from "../../../DCR-Alignment/types";
 
 export const groupAlignment = (Lalignments: LogAlignments) : Array<AlignmentGroup> => {
         var res : Array<AlignmentGroup> = []
+
         Lalignments.alignments.forEach(alignment => {
-
-            var test = groupAlignments(alignment, alignment.cost, res)
-
-            if (test !== null)
-                res.push(test);
+            var group = groupAlignments(alignment, alignment.cost, res)
+            if (group !== null)
+                res.push(group);
       });
+
+      res.forEach((group => {
+        group.GroupStatistics = computeGroupStatistics(group);
+      }));
+      
       return res;
     }
     
@@ -61,7 +65,7 @@ export const groupAlignment = (Lalignments: LogAlignments) : Array<AlignmentGrou
         {
           GroupAlignemnts: [temp],
           Alignment: (alignment.trace.length > 0) ? alignment.trace : [...originalAlignmentTrace],
-          GroupStatistics: computeGroupStatistics(alignment.trace),
+          GroupStatistics: {},
           color:"",
           id: Guid.create().toString(),
           otherGroupsIDInResult: [],
@@ -69,6 +73,7 @@ export const groupAlignment = (Lalignments: LogAlignments) : Array<AlignmentGrou
         }
       )
     }
+
     const filterGroupMoves = (group : Alignment) : Alignment => {
         return (
             {

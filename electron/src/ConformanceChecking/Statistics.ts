@@ -7,17 +7,16 @@ export const ResultStatistics = (result: Result) : DynamicStatistics => {
     let i = 1;
     // Compute score for each group.
     result.alignmentgroups.forEach(group => {
-        mappedScore[i] = computeScoreForGroup(group);
-        //scores.push(computeScoreForGroup(group));
-        i++;
+        group.GroupAlignemnts.forEach(alignment => {
+            mappedScore[i] = computeScoreForGroup(group);
+            //scores.push(computeScoreForGroup(group));
+            i++;
+        })
     });
     scores = Object.values(mappedScore);
 
-    // scores.forEach(score => {
-    //     mappedScore[i] = score
-    //     i++;
-    // });
-
+    // Average cost in result
+    var averageCost = result.alignmentgroups.reduce((p,c) => p + c.cost,0) / result.alignmentgroups.length
     // Compute average score
     var average = scores.reduce( ( p, c ) => p + c, 0 ) / scores.length
     // Compute median score
@@ -36,12 +35,13 @@ export const ResultStatistics = (result: Result) : DynamicStatistics => {
     var min = Math.min(...scores)
     // Put into object and return.
     return {
-        averageScore: average,
-        medianScore: median,
-        maxScore: max,
-        minScore: min,
+        averageScore: average.toFixed(2),
+        medianScore: median.toFixed(2),
+        maxScore: max.toFixed(2),
+        minScore: min.toFixed(2),
         scoreKeys: Object.keys(mappedScore),
         scoreValues: Object.values(mappedScore),
+        averageCost: averageCost.toFixed(2)
     }
 }
 
@@ -49,15 +49,17 @@ const computeScoreForGroup = (group : AlignmentGroup) : number =>{
     var correct = 0
     var failure = 0
     var length = 0;
-    group.Alignment.forEach(trace => {
-        length = length + 1;
-        if(trace[1] !== "consume")
-        {
-            failure++;
-        }
-        else{
-            correct++;
-        }
+    group.GroupAlignemnts.forEach(trace => {
+        trace.trace.forEach(test => {
+            length = length + 1;
+            if(test[1] !== "consume")
+            {
+                failure++;
+            }
+            else{
+                correct++;
+            }
+        })
     });
 
     var result = (correct / length)

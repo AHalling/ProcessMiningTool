@@ -32,6 +32,7 @@ export const StatisticNames : {[fieldName: string] : string} = {
     Alignments: "Aligned",
     TopLogSkip: "Event most log skipped",
     TopModelSkip: "Event most model skipped",
+    averageCost: "Average cost"
 }
 
 export const GroupColors = ['#FF6F61','#88B04B','#34568B','#92A8D1','#F7CAC9', '#6B5B95', '#DD4124', '#45B8AC'];

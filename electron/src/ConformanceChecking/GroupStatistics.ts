@@ -1,8 +1,9 @@
-import { AlignmentTrace } from "types/build/DCR-Alignment/types";
+import { Alignment, AlignmentTrace } from "types/build/DCR-Alignment/types";
+import { AlignmentGroup } from "types/build/conformanceCheckingTypes";
 import { DynamicStatistics } from "types/src/conformanceCheckingTypes";
 
-export const computeGroupStatistics = (group: AlignmentTrace) : DynamicStatistics  => {
-    var [logskips, modelskips, aligned,  topLog, TopModel, totalModelSkips, TotalLogSkips] = computeSkips(group);
+export const computeGroupStatistics = (alignmentGroup: AlignmentGroup) : DynamicStatistics  => {
+    var [logskips, modelskips, aligned,  topLog, TopModel, totalModelSkips, TotalLogSkips] = computeSkips(alignmentGroup.GroupAlignemnts);
 
     const stats : DynamicStatistics = {
         LogSkips: logskips,
@@ -18,32 +19,36 @@ export const computeGroupStatistics = (group: AlignmentTrace) : DynamicStatistic
     return stats
 }
 
-const computeSkips = (group: AlignmentTrace) : [number, number, number,  string, string, { [name: string]: number; }, { [name: string]: number; }] => {
+const computeSkips = (groupAlignments: Array<Alignment>) : [number, number, number,  string, string, { [name: string]: number; }, { [name: string]: number; }] => {
     let logskips = 0;
     let modelskips = 0;
     let aligned = 0;
     let ModelSkips : { [name: string]: number } = {};
     let LogSkips : { [name: string]: number } = {};
     
-    group.forEach(trace => {
-        ModelSkips[trace[0]] = 0;
-        LogSkips[trace[0]] = 0;
-    });
+    groupAlignments.forEach((alignment=> {
+        alignment.trace.forEach(trace => {
+            ModelSkips[trace[0]] = 0;
+            LogSkips[trace[0]] = 0;
+        });
+    }))
 
-    group.forEach(trace => {
-        if(trace[1] == "model-skip"){
-            modelskips++;
-            ModelSkips[trace[0]] = ModelSkips[trace[0]] + 1;
-        }
-
-        else if(trace[1] == "trace-skip"){
-            logskips++;
-            LogSkips[trace[0]] = LogSkips[trace[0]] + 1;
-
-        }
-        else
-            aligned++;
-    });
+    groupAlignments.forEach((alignment => {
+        alignment.trace.forEach(trace => {
+            if(trace[1] == "model-skip"){
+                modelskips++;
+                ModelSkips[trace[0]] = ModelSkips[trace[0]] + 1;
+            }
+    
+            else if(trace[1] == "trace-skip"){
+                logskips++;
+                LogSkips[trace[0]] = LogSkips[trace[0]] + 1;
+    
+            }
+            else
+                aligned++;
+        });
+    }))
 
     return [logskips, modelskips, aligned, getMax(ModelSkips) , getMax(LogSkips), ModelSkips, LogSkips]
 }

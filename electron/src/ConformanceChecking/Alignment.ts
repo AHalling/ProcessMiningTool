@@ -87,7 +87,6 @@ const getOtherGroupsInResult = (groups: Array<AlignmentGroup>) : Array<Alignment
 
 const ShortenSynchronizedMoves = (groups: Array<AlignmentGroup>) :Array<AlignmentGroup> =>{
   groups.forEach(group => {
-        console.log(group.cost)
         if (group.Alignment.length >= ShortenLimit){
           group.Alignment = shortenTrace(group.Alignment);
         } 

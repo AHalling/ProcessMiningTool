@@ -10,10 +10,23 @@ export const OptionsWrapper = styled.div`
 export const OptionsForm = styled.form`
 `
 
+export const LabelDiv = styled.div`
+    display:flex;
+    flex-direction: row;
+    width:100%;
+    > input{
+        float:right;
+        clear:both;
+        align-items: flex-end;
+    }
+`
+
 export const OptionsLabel = styled.label`
     height: 2vh;
     text-align:left;
     width:15vw;
+    margin:2px;
+
 `
 
 export const OptionsInput = styled.input`
