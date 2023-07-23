@@ -1,16 +1,17 @@
 import { FileResult } from "types/src/fileTypes";
 import align from "../../../DCR-Alignment/src/align";
 import {parseLog} from "../../../DisCoveR-TS-main/fsInteraction";
-import {Traces, DCRGraphPP, AlignmentTrace} from "../../../DCR-Alignment/types"
-import {Result, LogAlignments, isDCRGraphPP, AlignmentGroup, Options} from "../../../types/src/conformanceCheckingTypes";
+import {Traces, DCRGraphPP, AlignmentTrace, Trace} from "../../../DCR-Alignment/types"
+import {Result, LogAlignments, isDCRGraphPP, AlignmentGroup, Options, TraceGroup} from "../../../types/src/conformanceCheckingTypes";
 import {loadFile} from "../fileManipulation"
 import {isDCRGraph} from "../../../types/src/miningTypes";
 import { isUiDCRGraph } from "../../../types/src/types";
 import {formatModel, formatDCRGraphToDCRGraphPP} from "../Models/modelHelpers"
 import { GroupColors, ShortenLimit } from "./Constants";
-import { ResultStatistics } from "./Statistics";
+import { ResultStatistics, computeLogFitness } from "./Statistics";
 import { groupAlignment } from "./AlignmentGroup";
 import { groupTraces } from "./TraceGroup";
+import { Alignment } from "types/build/DCR-Alignment/types";
 
 export const computeAlignment = async (Log: FileResult, Model: FileResult, Options: Options) : Promise<Result> => {
     // Get traces
@@ -19,6 +20,7 @@ export const computeAlignment = async (Log: FileResult, Model: FileResult, Optio
     var logAlignments : LogAlignments = {
         alignments : [],
     };
+    var fitness = 0;
     
     const result : Result = {
         logName: Log.name,
@@ -38,9 +40,46 @@ export const computeAlignment = async (Log: FileResult, Model: FileResult, Optio
         logAlignments.alignments.push(align(trace.Trace, model, Options,trace.keys ))
       });
 
+    var alignmentsForEmptyModel = computeAlignmentsForEmptyModel(traceGroups, getEmptyDCRGraphPP(), Options)
+
     result.alignmentgroups = OrganizeAlignments(logAlignments)
-    result.statistics = ResultStatistics(result)
+    if (isDCRGraphPP(model)){
+      var costsForEmptyTraces = computeCostsWithEmptyTrace(model, Options);
+      fitness = computeLogFitness(result, alignmentsForEmptyModel, costsForEmptyTraces);
+    }
+    result.statistics = ResultStatistics(result, fitness)
     return result
+}
+
+const getEmptyDCRGraphPP= () : DCRGraphPP  => {
+    var graph : DCRGraphPP = {
+      events: new Set<string>(),
+      marking: {
+        executed: new Set<string>(),
+        included: new Set<string>(),
+        pending: new Set<string>(),
+      },
+      conditionsFor: {},
+      excludesTo:{},
+      includesTo: {},
+      milestonesFor: {},
+      responseTo: {},
+      conditions: new Set<string>(),
+  };
+  return graph
+}
+
+const computeAlignmentsForEmptyModel = (traceGroups: Array<TraceGroup>, model: DCRGraphPP, Options : Options) : Array<Alignment> => {
+  var alignments : Array<Alignment> = [];
+  traceGroups.forEach(group => {
+    alignments.push(align(group.Trace, model, Options, group.keys))
+  });
+
+  return alignments;
+}
+
+const computeCostsWithEmptyTrace = (model: DCRGraphPP, Options : Options) : number => {
+  return align([], model, Options, []).cost
 }
 
 const GetGraphFromModel = async (Model: FileResult, LogName: string) : Promise<DCRGraphPP | undefined> => {

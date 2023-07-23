@@ -1,14 +1,13 @@
 import ToggleButton from "../../Shared/Components/ToggleButton";
 //import { useLayoutEffect, useRef, useState } from 'react';
 import ResultsStatistics from "./ResultsStatistics";
-import Export from "./Export";
 import TopbarContent from "./TopbarContent";
 import AlignmentGroups from "./AlignmentGroups";
 import Legends from "./Legends";
 import {LeftBar, MainContent, StatisticsBar, ContentWrapper} from "../Styling/ContentStyling";
 import {MainContentWrapper, Groups} from "../Styling/MainContentStyling";
 import ResultList from "./ResultList";
-import {ResultsLabel, OptionsLabel, StatisticsLabel, HeatmapLabel, HeightDictionary, GroupStatisticsLabel, ExportLabel, LegendsLabel} from "../Constants";
+import {ResultsLabel, OptionsLabel, StatisticsLabel, HeatmapLabel, HeightDictionary, GroupStatisticsLabel, LegendsLabel} from "../Constants";
 import {State} from "../../../../types/src/types";
 import {Results} from "../../../../types/src/conformanceCheckingTypes";
 import Modal from "../../Shared/Components/Modal";
@@ -66,8 +65,7 @@ const Layout = (props:LayoutProps) => {
                 </MainContentWrapper>
             </MainContent>
             <StatisticsBar id="StatisticsBar" backgroundColor={SelectedGroup?.color ?? "none"}>
-                <ToggleButton Title={GroupStatisticsLabel}  ComponentToRender={ResultsStatistics({Stats: SelectedGroup?.GroupStatistics})} ComponentHeight={67.9} CustomHeight={true}></ToggleButton>
-                <ToggleButton Title={ExportLabel}  ComponentToRender={Export()} ComponentHeight={15} CustomHeight={true}></ToggleButton> 
+                <ToggleButton Title={GroupStatisticsLabel}  ComponentToRender={ResultsStatistics({Stats: SelectedGroup?.GroupStatistics})} ComponentHeight={83} CustomHeight={true}></ToggleButton>
             </StatisticsBar>
         </ContentWrapper>
     )

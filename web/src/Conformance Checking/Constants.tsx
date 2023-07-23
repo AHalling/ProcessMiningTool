@@ -18,12 +18,12 @@ export const HeightDictionary : {[id: string] : number} = {
 }
 
 export const StatisticNames : {[fieldName: string] : string} = {
-    maxScore:"Max Score",
-    minScore:"Min Score",
-    averageScore:"Average Score",
-    medianScore:"Median Score",
+    maxScore:"Max fitness",
+    minScore:"Min fitness",
+    averageScore:"Average fitness",
+    medianScore:"Median fitness",
     numberOfTraces:"Number of traces",
-    groupScore:"Group Score",
+    groupScore:"Group fitness",
     Activations:"Activations",
     Fulfillments:"Fulfillments",
     Violations:"Violations",
@@ -32,7 +32,8 @@ export const StatisticNames : {[fieldName: string] : string} = {
     Alignments: "Aligned",
     TopLogSkip: "Event most log skipped",
     TopModelSkip: "Event most model skipped",
-    averageCost: "Average cost"
+    averageCost: "Average cost",
+    fitness: "Fitness"
 }
 
 export const GroupColors = ['#FF6F61','#88B04B','#34568B','#92A8D1','#F7CAC9', '#6B5B95', '#DD4124', '#45B8AC'];

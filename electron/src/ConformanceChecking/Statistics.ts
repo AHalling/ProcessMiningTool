@@ -1,6 +1,8 @@
 import { AlignmentGroup, DynamicStatistics, Result, MappingScore } from "types/src/conformanceCheckingTypes";
+import align from "../../../DCR-Alignment/src/align";
+import { Alignment } from "types/build/DCR-Alignment/types";
 
-export const ResultStatistics = (result: Result) : DynamicStatistics => {
+export const ResultStatistics = (result: Result, fitness: number) : DynamicStatistics => {
     let scores : number[] = [];
     let mappedScore : { [name: string]: number } = {};
 
@@ -9,7 +11,6 @@ export const ResultStatistics = (result: Result) : DynamicStatistics => {
     result.alignmentgroups.forEach(group => {
         group.GroupAlignemnts.forEach(alignment => {
             mappedScore[i] = computeScoreForGroup(group);
-            //scores.push(computeScoreForGroup(group));
             i++;
         })
     });
@@ -35,13 +36,14 @@ export const ResultStatistics = (result: Result) : DynamicStatistics => {
     var min = Math.min(...scores)
     // Put into object and return.
     return {
+        fitness: fitness,
         averageScore: average.toFixed(2),
         medianScore: median.toFixed(2),
         maxScore: max.toFixed(2),
         minScore: min.toFixed(2),
         scoreKeys: Object.keys(mappedScore),
         scoreValues: Object.values(mappedScore),
-        averageCost: averageCost.toFixed(2)
+        averageCost: averageCost.toFixed(2),
     }
 }
 
@@ -50,9 +52,9 @@ const computeScoreForGroup = (group : AlignmentGroup) : number =>{
     var failure = 0
     var length = 0;
     group.GroupAlignemnts.forEach(trace => {
-        trace.trace.forEach(test => {
+        trace.trace.forEach(event => {
             length = length + 1;
-            if(test[1] !== "consume")
+            if(event[1] !== "consume")
             {
                 failure++;
             }
@@ -64,4 +66,13 @@ const computeScoreForGroup = (group : AlignmentGroup) : number =>{
 
     var result = (correct / length)
     return result;
+}
+
+export const computeLogFitness = (result: Result, alignmentsOfEmptyExecutionSequence: Array<Alignment>, minCostForEmptyTrace: number) : number => {
+    var totalCost =  result.alignmentgroups.reduce((p,c) => p + c.cost, 0)
+    var length =  result.alignmentgroups.reduce((p,c) => p + 1, 0)
+
+    var costOfAligningTraceWithEmptyExecution = alignmentsOfEmptyExecutionSequence.reduce((p,c) => p + c.cost, 0);
+
+    return (1- (totalCost/ (costOfAligningTraceWithEmptyExecution + length * minCostForEmptyTrace)))
 }
