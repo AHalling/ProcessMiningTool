@@ -48,7 +48,7 @@ const AlignmentGrouping = (props: AlignmentGroupProps) => {
                             Details
                         </GroupButton>
                         <GroupButton onClick={() => handleModalOpen("TraceGroups")}>
-                            Trace groups
+                            Alignments
                         </GroupButton>
                     </ButtonWrapper>
                 </LeftSideDiv>

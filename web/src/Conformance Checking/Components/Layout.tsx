@@ -46,7 +46,7 @@ const Layout = (props:LayoutProps) => {
     return(
         <ContentWrapper>
             {openDetailsModal && <Modal setModalState={setModalState} modalType="Details" content={DetailsContent({result: currResult, selectedGroup: SelectedGroup, figure: currDetailsFig})} title="Details"></Modal>}
-            {openGroupsModal && <Modal setModalState={setModalState} modalType="TraceGroups" content={TraceGroups({group:SelectedGroup, setState: setModalState})} title="Trace Groups" ></Modal>}
+            {openGroupsModal && <Modal setModalState={setModalState} modalType="TraceGroups" content={TraceGroups({group:SelectedGroup, setState: setModalState})} title="Alignments" ></Modal>}
             {openExportModal && <Modal setModalState={setModalState} modalType="Export" content={ExportContent()} title="Export" ></Modal>}
             {openExportFigModal && <Modal setModalState={setModalState} modalType="ExportFig" content={ExportFigureContent()} title="Export Figure"  ></Modal>}
             <LeftBar ref={parentRef}>

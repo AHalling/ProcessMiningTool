@@ -3,7 +3,7 @@ import {LegendColor} from "../../../types/src/conformanceCheckingTypes";
 export const ResultsLabel = "Results"
 export const OptionsLabel = "Options"
 export const StatisticsLabel = "Statistics"
-export const HeatmapLabel = "Heatmap"
+export const HeatmapLabel = "Figure"
 export const GroupStatisticsLabel = "Group Statistics"
 export const ExportLabel = "Export"
 export const LegendsLabel = "Legends"
